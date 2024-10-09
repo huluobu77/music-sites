@@ -1,10 +1,10 @@
 <script setup>
-import Hello from './components/Hello.vue';
+import Header from '@/components/Header.vue';
 </script>
 
 <template>
-  <h2>音乐网站</h2>
-  <Hello />
+  <Header></Header>
+  <router-view></router-view>
 </template>
 
 <style scoped></style>
