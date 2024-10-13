@@ -23,7 +23,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-// import { ElInput,ElHeader,ElMain,ElContainer } from 'element-plus' // 导入必要的组件
+import { ElInput,ElHeader,ElMain,ElContainer } from 'element-plus' // 导入必要的组件
 const input = ref('')
 </script>
 
