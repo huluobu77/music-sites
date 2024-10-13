@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from 'vue';
-// import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
+import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
 
 // 定义轮播内容，包含图片路径和文本
 const carouselItems = ref([
@@ -41,6 +41,8 @@ const gridItems = ref([
     { image: "/src/assets/images/image.png", description: "描述 6" },
     { image: "/src/assets/images/image.png", description: "描述 7" },
     { image: "/src/assets/images/image.png", description: "描述 8" },
+    { image: "/src/assets/images/image.png", description: "描述 9" },
+    { image: "/src/assets/images/image.png", description: "描述 10" },
 ]);
 </script>
 
@@ -56,7 +58,7 @@ const gridItems = ref([
 
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px; /* 列间距 */
     margin-top: 20px; /* 上边距 */
 }
@@ -72,8 +74,8 @@ const gridItems = ref([
 .image-item img {
     height: auto; /* 保持比例 */
     border-radius: 10px; /* 圆角 */
-    width: 150px; /* 设置宽度为100%以自适应父容器 */
-    height: 150px; /* 固定高度为100px */
+    width: 250px; /* 设置宽度为100%以自适应父容器 */
+    height: 250px; /* 固定高度为100px */
 }
 
 .image-description {
