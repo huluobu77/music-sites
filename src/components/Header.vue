@@ -2,7 +2,7 @@
     <el-container>
         <el-header class="navbar">
             <div class="logo">
-                <img src="/src/images/icon.png" alt="畅听" />
+                <img src="../assets/images/icon.png" alt="畅听" />
                 <span class="logo-text">畅听</span>
             </div>
             <div class="nav-links">
@@ -11,23 +11,32 @@
                 <RouterLink to="/songlist" class="nav-item">歌单</RouterLink>
             </div>
             <div class="search">
-                <el-input class="custom-input" placeholder="搜索歌曲歌手" :suffix-icon="Search" v-model="input"/>
+                <el-input class="custom-input" placeholder="搜索歌曲歌手" :suffix-icon="Search" v-model="input" />
+            </div>
+            <div class="block">
+                <el-avatar :size="50" :src="avatarSrc"/>
             </div>
         </el-header>
-        <el-main>
-            <!-- 主内容区 -->
-        </el-main>
     </el-container>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,reactive,toRef} from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { ElInput,ElHeader,ElMain,ElContainer } from 'element-plus' // 导入必要的组件
+import { ElInput, ElHeader, ElContainer, ElAvatar } from 'element-plus' // 导入必要的组件
 const input = ref('')
+// 引入图片资源
+import avatarSrc from '@/assets/images/用户.png';
 </script>
 
 <style scoped>
+.block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 使块居中 */
+    margin-left: 10px;
+}
 .navbar {
     display: flex;
     /* 使用 Flexbox 布局 */
@@ -39,17 +48,22 @@ const input = ref('')
     /* 内边距 */
     background-color: #f8f9fa;
     /* 背景颜色 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
     /* 盒子阴影 */
 }
+
 .search {
-    justify-content: right; 
+    justify-content: right;
 
 }
+
 .custom-input .el-input__inner {
-    background-color: #aa0d0d !important; /* 添加 !important 以提高优先级 */
-    color: #000000; /* 输入文本颜色 */
+    background-color: #aa0d0d !important;
+    /* 添加 !important 以提高优先级 */
+    color: #000000;
+    /* 输入文本颜色 */
 }
+
 .logo {
     display: flex;
     /* 使用 Flexbox 布局 */
@@ -94,15 +108,19 @@ const input = ref('')
     text-decoration: underline;
     /* 可选：悬停时添加下划线 */
 }
+
 .search {
-    margin-left: auto; /* 自动左边距，将搜索框推到右侧 */
+    margin-left: auto;
+    /* 自动左边距，将搜索框推到右侧 */
     display: flex;
-    align-items: center; /* 垂直居中 */
-    width: 300px; 
-    
+    align-items: center;
+    /* 垂直居中 */
+    width: 300px;
+
 }
 
 .el-input {
-    min-width: 200px; /* 设置最小宽度以确保输入框足够大 */
+    min-width: 200px;
+    /* 设置最小宽度以确保输入框足够大 */
 }
 </style>
