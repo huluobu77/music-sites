@@ -1,5 +1,5 @@
  <template>
-    <div class="all" style="margin-top: 100px;">
+    <div class="all" style="margin-top: 20px;">
 
         <div class="left">
             <h1>Welcome back</h1>
@@ -9,11 +9,11 @@
                 <el-form :model="ruleForm" :rules="rules">
 
                     <el-form-item prop="username">
-                        <el-input v-model="ruleForm.username"  placeholder="username" />
+                        <el-input v-model="ruleForm.username"  placeholder="用户名" style="height: 50px;"/>
                     </el-form-item>
 
                     <el-form-item prop="passward">
-                        <el-input v-model="ruleForm.passward" placeholder="passward" type="passward" @keyup.enter="onSubmit"/>
+                        <el-input v-model="ruleForm.passward" placeholder="密码" type="passward" @keyup.enter="onSubmit" style="height: 50px;"/>
                     </el-form-item>
 
                     <el-form-item>
@@ -21,7 +21,7 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button class="login-btn" type="primary" @click="onSubmit">登录</el-button>
+                        <el-button class="login-btn" type="primary" @click="onSubmit" style="height: 35px;">登录</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -75,6 +75,11 @@ console.log('submit!')
     height: 1080px;
 } */
 
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
 .form-list{
     text-align: center;
     display: flex;
@@ -83,16 +88,15 @@ console.log('submit!')
 }
 
 .left {
-    width: 60%;
-    display: inline-block;
+    width: 50%;
+    /* display: inline-block; */
     float: left;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .right {
-    margin-top: 20px;
-    width: 40%;
-    display: inline-block;
+    width: 50%;
+    /* display: inline-block; */
     float: right;
     opacity: 1;
 
@@ -100,7 +104,9 @@ console.log('submit!')
 
 .img1 {
     width: 100%;
-    height: 100%;
+    /* height: 600px; */
+    
+    
 }
 
 .login-btn{
@@ -109,7 +115,7 @@ console.log('submit!')
 }
 
 .login-rgs{
-    margin-left: 270px;
+    margin-left: 280px;
 }
 
 .demo-form-inline .el-input {
@@ -121,19 +127,17 @@ console.log('submit!')
 }
 
 h1{
-    /* text-align: center; */
     margin-top: 150px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .el-input {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .el-form {
     margin-top: 30px;
 }
 
-.el-radio {
-    margin-left: 30px;
-}
 </style>
