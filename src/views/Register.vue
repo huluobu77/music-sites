@@ -1,5 +1,5 @@
 <template>
-    <div class="all" style="margin-top: 100px;">
+    <div class="all" style="margin-top: 50px;">
       <div class="left">
         <h1>用户注册</h1>
         <div class="le1">
@@ -127,7 +127,7 @@ validations: {
   }
   .img1{
     width: 100%;
-    height: 600px;
+    height: 550px;
   }
   .le1{
     text-align: center;
