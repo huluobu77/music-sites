@@ -1,24 +1,24 @@
 <template>
     <div class="login-container">
-        
+
         <div class="left">
             <h1>Welcome back</h1>
-            <el-form  label-width="80px" style="border:1px solid #C4E1C5;padding:20px;">
-            <el-form-item >
-                <el-input placeholder="username"></el-input>
-                <el-input placeholder="passward"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button class="login-btn" type="primary">登录</el-button>
-            </el-form-item>
-        </el-form>
+            <el-form label-width="80px" style="border:1px solid #C4E1C5;padding:20px;">
+                <el-form-item>
+                    <el-input placeholder="username"></el-input>
+                    <el-input placeholder="passward"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button class="login-btn" type="primary">登录</el-button>
+                </el-form-item>
+            </el-form>
         </div>
 
         <div class="right">
-            
+
         </div>
 
     </div>
@@ -29,13 +29,10 @@
 </script>
 
 <style lang="scss" scoped>
-
-.login-btn{
+.login-btn {
     font-size: 15px;
     padding: 10px 150px;
 }
-
-
 </style>
 
 <!-- 
