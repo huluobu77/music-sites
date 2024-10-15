@@ -24,6 +24,8 @@
 import { ref } from 'vue';
 import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
 
+import { httpManager } from '@/api';
+
 // 定义轮播内容，包含图片路径和文本
 const carouselItems = ref([
     { image: "/src/assets/images/image.png" },
@@ -44,6 +46,15 @@ const gridItems = ref([
     { image: "/src/assets/images/image.png", description: "描述 9" },
     { image: "/src/assets/images/image.png", description: "描述 10" },
 ]);
+
+const getAllBanner = async () => {
+    httpManager.test();
+    const res = await httpManager.getAllBanner();
+    console.log(res)
+}
+
+getAllBanner();
+
 </script>
 
 <style scoped>
@@ -59,26 +70,37 @@ const gridItems = ref([
 .image-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 16px; /* 列间距 */
-    margin-top: 20px; /* 上边距 */
+    gap: 16px;
+    /* 列间距 */
+    margin-top: 20px;
+    /* 上边距 */
 }
+
 .image-item {
     position: relative;
-    border-radius: 10px; /* 圆角 */
-    text-align: center; /* 内容居中 */
-    
-    padding: 10px; /* 内边距，确保图片与边缘有10px的距离 */
+    border-radius: 10px;
+    /* 圆角 */
+    text-align: center;
+    /* 内容居中 */
+
+    padding: 10px;
+    /* 内边距，确保图片与边缘有10px的距离 */
 }
 
 
 .image-item img {
-    height: auto; /* 保持比例 */
-    border-radius: 10px; /* 圆角 */
-    width: 250px; /* 设置宽度为100%以自适应父容器 */
-    height: 250px; /* 固定高度为100px */
+    height: auto;
+    /* 保持比例 */
+    border-radius: 10px;
+    /* 圆角 */
+    width: 250px;
+    /* 设置宽度为100%以自适应父容器 */
+    height: 250px;
+    /* 固定高度为100px */
 }
 
 .image-description {
-    margin-top: 8px; /* 描述与图片的间距 */
+    margin-top: 8px;
+    /* 描述与图片的间距 */
 }
 </style>
