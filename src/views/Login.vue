@@ -1,76 +1,37 @@
-<template>
-    <div class="login-container">
-        
-        <div class="left">
-            <h1>Welcome back</h1>
-            <el-form  label-width="80px" style="border:1px solid #C4E1C5;padding:20px;">
-            <el-form-item >
-                <el-input placeholder="username"></el-input>
-                <el-input placeholder="passward"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button class="login-btn" type="primary">登录</el-button>
-            </el-form-item>
-        </el-form>
-        </div>
-
-        <div class="right">
-            
-        </div>
-
-    </div>
-</template>
-
-<script setup>
-
-</script>
-
-<style lang="scss" scoped>
-
-.login-btn{
-    font-size: 15px;
-    padding: 10px 150px;
-}
-
-
-</style>
-
-<!-- 
-
-
  <template>
-    <div class="all">
+    <div class="all" style="margin-top: 100px;">
 
         <div class="left">
             <h1>Welcome back</h1>
 
-            <el-form :model="ruleForm" :rules="rules">
+            <div class="form-list">
+                
+                <el-form :model="ruleForm" :rules="rules">
 
-                <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username"  placeholder="username" />
-                </el-form-item>
+                    <el-form-item prop="username">
+                        <el-input v-model="ruleForm.username"  placeholder="username" />
+                    </el-form-item>
 
-                <el-form-item prop="passward">
-                    <el-input v-model="ruleForm.passward" placeholder="passward" type="passward" @keyup.enter="onSubmit"/>
-                </el-form-item>
+                    <el-form-item prop="passward">
+                        <el-input v-model="ruleForm.passward" placeholder="passward" type="passward" @keyup.enter="onSubmit"/>
+                    </el-form-item>
 
-                <el-form-item>
-                    <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
-                </el-form-item>
+                    <el-form-item>
+                        <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
+                    </el-form-item>
 
-                <el-form-item>
-                    <el-button class="login-btn" type="primary" @click="onSubmit">登录</el-button>
-                </el-form-item>
+                    <el-form-item>
+                        <el-button class="login-btn" type="primary" @click="onSubmit">登录</el-button>
+                    </el-form-item>
 
-            </el-form>
+                </el-form>
+
+            </div>
             
         </div>
 
         <div class="right">
-            <img src="/src/assets/images/bg.png" style="width: 800px;">
+            <img class="img1" src="https://img.js.design/assets/img/66ed6f40c6ebda7a2a163c9a.jpg#ea9d4281bf16114767909ba76e10357a">
         </div>
 
     </div>
@@ -105,23 +66,41 @@ console.log('submit!')
 
 <style>
 
-.all{
+/* .all{
     display: flex; 
     flex-direction: row; 
     justify-content: space-between;
 
     width: 1920px;
     height: 1080px;
+} */
+
+.form-list{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.left{
+.left {
+    width: 60%;
+    display: inline-block;
+    float: left;
+    text-align: center;
+}
 
-  width: 50%;
+.right {
+    margin-top: 20px;
+    width: 40%;
+    display: inline-block;
+    float: right;
+    opacity: 1;
 
 }
 
-.right{
-    width: 50%;
+.img1 {
+    width: 100%;
+    height: 100%;
 }
 
 .login-btn{
@@ -142,14 +121,19 @@ console.log('submit!')
 }
 
 h1{
-    text-align: center;
-    margin-top: 200px;
-}
-.el-input{
-    width: 300px;
+    /* text-align: center; */
+    margin-top: 150px;
 }
 
-.el-form{
-    margin-left: 330px;
+.el-input {
+    margin-left: 10px;
 }
-</style> -->
+
+.el-form {
+    margin-top: 30px;
+}
+
+.el-radio {
+    margin-left: 30px;
+}
+</style>
