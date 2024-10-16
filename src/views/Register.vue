@@ -3,18 +3,18 @@
         <div class="left">
             <h1 style="margin: 0px;margin-top: 15px;">用户注册</h1>
             <div class="le1">
-                <el-form :model="formData" ref="formRef">
+                <el-form :model="ruleForm" :rules="rules">
                     <el-form-item prop="username">
                         <span class="s1">*</span>
                         <label class="lb1">用户名</label>
-                        <el-input v-model="formData.username" class="in1"></el-input>
+                        <el-input v-model="ruleForm.username" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <span class="s1">*</span>
                         <label class="lb1"> 密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                        <el-input v-model="formData.password" class="in1"></el-input>
+                        <el-input v-model="ruleForm.password" class="in1"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item >
                         <span class="s1">*</span>
                         <label class="lb1"> 性&nbsp;&nbsp;&nbsp;&nbsp;别</label>
                         <el-radio v-model="selectedOption" label="option1">男</el-radio>
@@ -24,23 +24,23 @@
                     <el-form-item prop="phone">
                         <span class="s1">*</span>
                         <label class="lb1"> 手&nbsp;&nbsp;&nbsp;&nbsp;机</label>
-                        <el-input v-model="formData.phone" class="in1"></el-input>
+                        <el-input v-model="ruleForm.phone" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item prop="birthday">
                         <span class="s1">*</span>
                         <label class="lb1"> 生&nbsp;&nbsp;&nbsp;&nbsp;日</label>
-                        <el-date-picker v-model="formData.birthday" class="in1" type="data"
+                        <el-date-picker v-model="ruleForm.birthday" class="in1" type="data"
                             style="margin-left: 30px;width: 300px;" placeholder="2020-01-04"></el-date-picker>
                     </el-form-item>
                     <el-form-item prop="sign">
                         <span class="s1">*</span>
                         <label class="lb1"> 签&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-                        <el-input v-model="formData.sign" class="in1" style="height: 70px;"></el-input>
+                        <el-input v-model="ruleForm.sign" class="in1" style="height: 70px;"></el-input>
                     </el-form-item>
                     <el-form-item prop="selectedValue">
                         <span class="s1">*</span>
                         <label class="lb1"> 地&nbsp;&nbsp;&nbsp;&nbsp;区</label>
-                        <el-select v-model="formData.selectedValue" style="width: 300px;margin-left: 30px;"
+                        <el-select v-model="ruleForm.selectedValue" style="width: 300px;margin-left: 30px;"
                             placeholder="地区">
                             <el-option label="长沙" value="1"></el-option>
                             <el-option label="株洲" value="2"></el-option>
@@ -66,54 +66,47 @@
     </div>
 </template>
   
-<script>
+<script lang="js" setup>
+import { valid } from 'mockjs';
 import { ref } from 'vue';
-export default {
-    data() {
-        return {
-            selectedOption: null,
-            formData: {
-                username: "",
-                password: "",
-                phone: "",
-                birthday: "",
-                selectedValue: "",
-                sign: ""
-            }
-        };
-    },
-    methods: {
-        handleSelection() {
-            if (this.selectedOption === 'option1') {
-            } else if (this.selectedOption === 'option2') {
-            } else if (this.selectedOption === 'option3') {
-            }
-        },
-        register() {
-            this.$refs.formRef.validate((valid) => {
-                if (valid) {
-                    alert("注册成功");
-                    console.log('注册成功，表单数据：', this.formData);
-                } else {
-                    alert("除电话以外其余不能为空")
-                    console.log('表单验证不通过');
-                }
-            });
-        }
-    },
-    validations: {
-        username: [
-            { required: true, message: '用户名不能为空', trigger: 'blur' }
-        ],
-        password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
-        ],
-        sign: [
-            { required: true, message: '签名不能为空', trigger: 'blur' }
-        ]
-    }
-};
+import { reactive} from 'vue'
+const ruleForm = reactive({
+    username:'',
+    password:'',
+    phone:'',
+    birthday:'',
+    sign:'',
+    selectedValue:'',
+    selectedOption:null
+})
 
+const rules = reactive({
+    username:[
+    { required: true, message: 'Please input username', trigger: 'blur' },
+    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    ],
+
+    password:[
+    { required: true, message: 'Please input password', trigger: 'blur' },
+    { min: 6, max: 8, message: 'Length should be 6 to 8', trigger: 'blur' },
+    ],
+    birthday:[
+    { required: true, message: 'Please input birthday', trigger: 'blur' },
+    ],
+    sign:[
+    { required: true, message: 'Please input sign', trigger: 'blur' },
+    ],
+    selectedValue:[
+    { required: true, message: 'Please input selectedvalue', trigger: 'blur' },
+    ],
+})
+const register = () => {
+console.log('register');
+
+}
+//单选按钮点击选中
+const selectedOption = ref(null);
+   
 </script>
 
 <style scoped>
