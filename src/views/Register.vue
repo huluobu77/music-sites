@@ -1,5 +1,5 @@
 <template>
-    <div class="all" >
+    <div class="all">
         <div class="left">
             <h1 style="margin: 0px;margin-top: 15px;">用户注册</h1>
             <div class="le1">
@@ -14,7 +14,7 @@
                         <label class="lb1"> 密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
                         <el-input v-model="ruleForm.password" class="in1"></el-input>
                     </el-form-item>
-                    <el-form-item >
+                    <el-form-item>
                         <span class="s1">*</span>
                         <label class="lb1"> 性&nbsp;&nbsp;&nbsp;&nbsp;别</label>
                         <el-radio v-model="selectedOption" label="option1">男</el-radio>
@@ -65,55 +65,55 @@
         </div>
     </div>
 </template>
-  
+
 <script lang="js" setup>
-import { valid } from 'mockjs';
 import { ref } from 'vue';
-import { reactive} from 'vue'
+import { reactive } from 'vue'
 const ruleForm = reactive({
-    username:'',
-    password:'',
-    phone:'',
-    birthday:'',
-    sign:'',
-    selectedValue:'',
-    selectedOption:null
+    username: '',
+    password: '',
+    phone: '',
+    birthday: '',
+    sign: '',
+    selectedValue: '',
+    selectedOption: null
 })
 
 const rules = reactive({
-    username:[
-    { required: true, message: 'Please input username', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    username: [
+        { required: true, message: 'Please input username', trigger: 'blur' },
+        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ],
 
-    password:[
-    { required: true, message: 'Please input password', trigger: 'blur' },
-    { min: 6, max: 8, message: 'Length should be 6 to 8', trigger: 'blur' },
+    password: [
+        { required: true, message: 'Please input password', trigger: 'blur' },
+        { min: 6, max: 8, message: 'Length should be 6 to 8', trigger: 'blur' },
     ],
-    birthday:[
-    { required: true, message: 'Please input birthday', trigger: 'blur' },
+    birthday: [
+        { required: true, message: 'Please input birthday', trigger: 'blur' },
     ],
-    sign:[
-    { required: true, message: 'Please input sign', trigger: 'blur' },
+    sign: [
+        { required: true, message: 'Please input sign', trigger: 'blur' },
     ],
-    selectedValue:[
-    { required: true, message: 'Please input selectedvalue', trigger: 'blur' },
+    selectedValue: [
+        { required: true, message: 'Please input selectedvalue', trigger: 'blur' },
     ],
 })
 const register = () => {
-console.log('register');
+    console.log('register');
 
 }
 //单选按钮点击选中
 const selectedOption = ref(null);
-   
+
 </script>
 
 <style scoped>
-*{
+* {
     padding: 0px;
     margin: 0px;
 }
+
 .left {
     width: 60%;
     display: inline-block;
@@ -158,10 +158,11 @@ const selectedOption = ref(null);
 .el-input {
     margin-left: 30px;
 }
+
 .el-radio {
     margin-left: 30px;
 }
-.el-form-item{
+
+.el-form-item {
     margin-top: 20px;
-}
-</style>
+}</style>
