@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="index">
         <el-carousel indicator-position="outside">
             <el-carousel-item v-for="(item, index) in carouselItems" :key="index">
                 <img :src="item.image" alt="" class="carousel-image" />
@@ -10,10 +10,7 @@
             <el-main>
                 <h3>歌单推荐</h3>
                 <div class="image-grid">
-                    <div class="image-item" v-for="(item, index) in gridItems" :key="index">
-                        <img :src="item.image" alt="" />
-                        <div class="image-description">{{ item.description }}</div>
-                    </div>
+                    <SongThumb v-for="(item, index) in gridItems" :key="index" :item="item"></SongThumb>
                 </div>
             </el-main>
         </el-container>
@@ -23,7 +20,7 @@
 <script setup>
 import { ref } from 'vue';
 import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
-
+import SongThumb from '../components/SongThumb.vue';
 import { httpManager } from '@/api';
 
 // 定义轮播内容，包含图片路径和文本
@@ -58,12 +55,12 @@ getAllBanner();
 </script>
 
 <style scoped>
-.el-carousel__item {
-    position: relative;
+.index{
+    margin-top: 20px;
+    padding: 0 40px;
 }
-
 .carousel-image {
-    width: 1776px;
+    width: 100%;
     height: 398px;
 }
 
@@ -72,7 +69,7 @@ getAllBanner();
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
     /* 列间距 */
-    margin-top: 20px;
+    /* margin-top: 20px; */
     /* 上边距 */
 }
 
@@ -83,7 +80,7 @@ getAllBanner();
     text-align: center;
     /* 内容居中 */
 
-    padding: 10px;
+    /* padding: 10px; */
     /* 内边距，确保图片与边缘有10px的距离 */
 }
 
