@@ -1,4 +1,4 @@
- <template>
+<template>
     <div class="all" style="margin-top: 20px;">
 
         <div class="left">
@@ -17,7 +17,7 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button class="login-rgs" type="text" plain disabled>注册</el-button>
+                        <el-button class="login-rgs" type="text" plain disabled><a href="http://localhost:5173/register">注册</a></el-button>
                     </el-form-item>
 
                     <el-form-item>
@@ -48,13 +48,13 @@ const ruleForm = reactive({
 
 const rules = reactive({
     username:[
-    { required: true, message: 'Please input username', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 5, message: '用户名长度请控制在3-5位', trigger: 'blur' },
     ],
 
     passward:[
-    { required: true, message: 'Please input passward', trigger: 'blur' },
-    { min: 6, max: 8, message: 'Length should be 6 to 8', trigger: 'blur' },
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 8, message: '密码长度请控制在6-8位', trigger: 'blur' },
     ],
 
 })
@@ -134,10 +134,19 @@ h1{
 
 .el-input {
     margin-left: 5px;
+    margin-top: 5px;
 }
 
 .el-form {
     margin-top: 30px;
 }
+
+a {
+  text-decoration: none;  /* 删除下划线 */
+  color: inherit;  /* 继承父级元素的文本颜色 */
+  font-weight: inherit;  /* 继承父级元素的字体粗细 */
+  font-style: inherit;  /* 继承父级元素的字体样式 */
+}
+
 
 </style>
