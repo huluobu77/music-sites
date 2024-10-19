@@ -1,5 +1,5 @@
 <template>
-    <div class="all" >
+    <div class="all" style="margin-top: 30px;">
         <div class="left">
             <h1 style="margin: 0px;margin-top: 15px;">用户注册</h1>
             <div class="le1">
@@ -22,8 +22,7 @@
                         <el-radio v-model="selectedOption" label="option3">保密</el-radio>
                     </el-form-item>
                     <el-form-item prop="phone">
-                        <span class="s1">*</span>
-                        <label class="lb1"> 手&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+                        <label class="lb1"> &nbsp;&nbsp;手&nbsp;&nbsp;&nbsp;&nbsp;机</label>
                         <el-input v-model="ruleForm.phone" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item prop="birthday">
@@ -40,12 +39,14 @@
                     <el-form-item prop="selectedValue">
                         <span class="s1">*</span>
                         <label class="lb1"> 地&nbsp;&nbsp;&nbsp;&nbsp;区</label>
-                        <el-select v-model="ruleForm.selectedValue" style="width: 300px;margin-left: 30px;"
-                            placeholder="地区">
-                            <el-option label="长沙" value="1"></el-option>
-                            <el-option label="株洲" value="2"></el-option>
-                            <el-option label="湘潭" value="3"></el-option>
-                        </el-select>
+                        <el-select v-model="selectedProvince" style="width: 300px; margin-left: 30px;">
+                            <el-option
+                                v-for="province in provinces"
+                                :key="province"
+                                :label="province"
+                                :value="province"
+                            />
+                            </el-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button
@@ -82,22 +83,22 @@ const ruleForm = reactive({
 
 const rules = reactive({
     username:[
-    { required: true, message: 'Please input username', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 5, message: '长度应该在3-5之间', trigger: 'blur' },
     ],
 
     password:[
-    { required: true, message: 'Please input password', trigger: 'blur' },
-    { min: 6, max: 8, message: 'Length should be 6 to 8', trigger: 'blur' },
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 8, message: '长度应该在6-8之间', trigger: 'blur' },
     ],
     birthday:[
-    { required: true, message: 'Please input birthday', trigger: 'blur' },
+    { required: true, message: '请输入生日', trigger: 'blur' },
     ],
     sign:[
-    { required: true, message: 'Please input sign', trigger: 'blur' },
+    { required: true, message: '请签名', trigger: 'blur' },
     ],
     selectedValue:[
-    { required: true, message: 'Please input selectedvalue', trigger: 'blur' },
+    { required: true, message: '请填入地区', trigger: 'blur' },
     ],
 })
 const register = () => {
@@ -106,7 +107,13 @@ console.log('register');
 }
 //单选按钮点击选中
 const selectedOption = ref(null);
-   
+const provinces = ref([
+      "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "辽宁省", "吉林省", "黑龙江省", 
+      "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省", 
+      "广东省", "海南省", "四川省", "贵州省", "云南省", "陕西省", "甘肃省", "青海省", "台湾省", 
+      "内蒙古自治区", "广西壮族自治区", "西藏自治区", "宁夏回族自治区", "新疆维吾尔自治区", "香港特别行政区", "澳门特别行政区"
+    ]);
+    const selectedProvince = ref('北京市');
 </script>
 
 <style scoped>
