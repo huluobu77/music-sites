@@ -2,25 +2,34 @@
     <div>
         <el-container>
             <el-main style="margin-top: 40px;">
-                <h3 class="h1">全部歌单</h3>
-                <button class="btn1">华语</button>
-                <button class="btn1">粤语</button>
-                <button class="btn1">欧美</button>
-                <button class="btn1">日韩</button>
-                <button class="btn1">轻音乐</button>
-                <button class="btn1">BGM</button>
-                <button class="btn1">乐器</button>
-                <div class="image-grid">
-                    <div class="image-item" v-for="(item, index) in gridItems" :key="index">
+                <h3 class="h1">全部歌手</h3>
+                <button class="btn1" @click="toggleVisibility(1)">男歌手</button>
+                <button class="btn1" @click="toggleVisibility(2)">女歌手</button>
+                <button class="btn1" @click="showAllDivs">全部歌手</button>
+                <div class="image-grid" id="nan" v-show="visibleDiv === 1 || showAll">
+                    <div class="image-item" v-for="(item, index) in sings1" :key="index">
+                        <img :src="item.image" alt="" />
+                        <div class="image-description">{{ item.description }}</div>
+                    </div>
+                </div>
+                <div class="image-grid" id="nv" v-show="visibleDiv === 2 || showAll">
+                    <div class="image-item" v-for="(item, index) in sings2" :key="index">
                         <img :src="item.image" alt="" />
                         <div class="image-description">{{ item.description }}</div>
                     </div>
                 </div>
             </el-main>
         </el-container>
-       
-        <div>
-
+        
+        <div >
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                <li style="background-color: white;width: 60px;">Total 10</li>
+                <li v-for="pageNumber in page " :key="pageNumber" :class="{ active: pageNumber === currentPage }">
+                    <a href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
+                </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </template>
@@ -28,8 +37,8 @@
 <script setup>
 import { ref } from 'vue';
 import { httpManager } from '@/api';
-const gridItems = ref([
-    { image: "/src/assets/images/sing.jpg", description: "描述 1" },
+const sings1 = ref([
+    { image: "/src/assets/images/sing.jpg", description: "男歌手" },
     { image: "/src/assets/images/sing.jpg", description: "描述 2" },
     { image: "/src/assets/images/sing.jpg", description: "描述 3" },
     { image: "/src/assets/images/sing.jpg", description: "描述 4" },
@@ -40,17 +49,41 @@ const gridItems = ref([
     { image: "/src/assets/images/sing.jpg", description: "描述 9" },
     { image: "/src/assets/images/sing.jpg", description: "描述 10" },
 ]);
-
-const getAllBanner = async () => {
-    httpManager.test();
-    const res = await httpManager.getAllBanner();
-    console.log(res)
-}
-
-getAllBanner();
-
+const sings2 = ref([
+    { image: "/src/assets/images/sing.jpg", description: "女歌手" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 2" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 3" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 4" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 5" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 6" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 7" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 8" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 9" },
+    { image: "/src/assets/images/sing.jpg", description: "描述 10" },
+]);
+const page=ref(['<',1,'>']);
 </script>
-
+<script>
+  export default {
+    name: 'ToggleDivsWithAllButton',
+    data() {
+      return {
+        visibleDiv: 1,
+        showAll: false,
+      };
+    },
+    methods: {
+      toggleVisibility(divNumber) {
+        this.visibleDiv = divNumber;
+        this.showAll = false;
+      },
+      showAllDivs() {
+        this.showAll = true;
+        this.visibleDiv = null;
+      },
+    },
+  };
+  </script>
 <style scoped>
 *{
     margin: 0px;
@@ -65,6 +98,9 @@ getAllBanner();
     background: white;
     margin-left: 30px;
     color: gray;
+}
+.btn1:hover{
+    color: black;
 }
 .image-grid {
     display: grid;
@@ -91,4 +127,30 @@ getAllBanner();
 .image-description {
     margin-top: 8px;
 }
+.pagination {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .pagination li {
+    cursor: pointer;
+    padding: 5px 10px;
+    width: 30px;
+    height: 25px;
+    margin: 0 5px;
+    background-color:rgba(244, 244, 245, 1);
+    text-align: center;
+  }
+  
+  .pagination li.active a {
+    color: white;
+    background-color: #007bff;
+  }
+  .pagination a{
+    color:gray;
+    text-decoration: none;
+  }
 </style>
