@@ -54,21 +54,23 @@
                 </div>
             </el-main>
         </el-container>
-            <div>
+        <div >
             <nav aria-label="Page navigation">
                 <ul class="pagination">
-                <li v-for="pageNumber in [1, 2, 3]" :key="pageNumber" :class="{ active: pageNumber === currentPage }">
+                <li style="background-color: white;width: 60px;">Total 50</li>
+                <li v-for="pageNumber in page " :key="pageNumber" :class="{ active: pageNumber === currentPage }">
                     <a href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                 </li>
                 </ul>
             </nav>
-            </div>
+        </div>
         </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import SongThumb from '../components/SongThumb.vue';
+const page=ref(['<',1,2,3,4,'>']);
 const songList1 = ref([
     {
         image: 'https://i.loli.net/2021/04/14/nNly8EdXJ2aHYTe.jpg',
@@ -539,17 +541,25 @@ const songList7 = ref([
     padding: 0;
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
   }
   
   .pagination li {
     cursor: pointer;
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    width: 30px;
+    height: 25px;
     margin: 0 5px;
+    background-color:rgba(244, 244, 245, 1);
+    text-align: center;
   }
   
   .pagination li.active a {
     color: white;
     background-color: #007bff;
+  }
+  .pagination a{
+    color:gray;
+    text-decoration: none;
   }
 </style>
