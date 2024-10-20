@@ -5,7 +5,7 @@
             <h1>Welcome back</h1>
 
             <div class="form-list">
-                
+
                 <el-form :model="ruleForm" :rules="rules">
 
                     <el-form-item prop="username">
@@ -27,23 +27,24 @@
                 </el-form>
 
             </div>
-            
+
         </div>
 
         <div class="right">
-            <img class="img1" src="https://img.js.design/assets/img/66ed6f40c6ebda7a2a163c9a.jpg#ea9d4281bf16114767909ba76e10357a">
+            <img class="img1"
+                src="https://img.js.design/assets/img/66ed6f40c6ebda7a2a163c9a.jpg#ea9d4281bf16114767909ba76e10357a">
         </div>
 
     </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive} from 'vue'
+import { reactive } from 'vue'
 
 
 const ruleForm = reactive({
-    username:'',
-    passward:'',
+    username: '',
+    passward: '',
 })
 
 const rules = reactive({
@@ -60,12 +61,11 @@ const rules = reactive({
 })
 
 const onSubmit = () => {
-console.log('submit!')
+    console.log('submit!')
 }
 </script>
 
 <style>
-
 /* .all{
     display: flex; 
     flex-direction: row; 
@@ -109,7 +109,7 @@ console.log('submit!')
     
 }
 
-.login-btn{
+.login-btn {
     font-size: 15px;
     padding: 10px 140px;
 }
@@ -119,11 +119,11 @@ console.log('submit!')
 }
 
 .demo-form-inline .el-input {
---el-input-width: 220px;
+    --el-input-width: 220px;
 }
 
 .demo-form-inline .el-select {
---el-select-width: 220px;
+    --el-select-width: 220px;
 }
 
 h1{

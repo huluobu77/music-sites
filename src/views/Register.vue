@@ -1,18 +1,18 @@
 <template>
-    <div class="all" style="margin-top: 100px;">
+    <div class="all" style="margin-top: 30px;">
         <div class="left">
-            <h1>用户注册</h1>
+            <h1 style="margin: 0px;margin-top: 15px;">用户注册</h1>
             <div class="le1">
-                <el-form :model="formData" ref="formRef">
+                <el-form :model="ruleForm" :rules="rules">
                     <el-form-item prop="username">
                         <span class="s1">*</span>
                         <label class="lb1">用户名</label>
-                        <el-input v-model="formData.username" class="in1"></el-input>
+                        <el-input v-model="ruleForm.username" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <span class="s1">*</span>
                         <label class="lb1"> 密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                        <el-input v-model="formData.password" class="in1"></el-input>
+                        <el-input v-model="ruleForm.password" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <span class="s1">*</span>
@@ -22,30 +22,31 @@
                         <el-radio v-model="selectedOption" label="option3">保密</el-radio>
                     </el-form-item>
                     <el-form-item prop="phone">
-                        <span class="s1">*</span>
-                        <label class="lb1"> 手&nbsp;&nbsp;&nbsp;&nbsp;机</label>
-                        <el-input v-model="formData.phone" class="in1"></el-input>
+                        <label class="lb1"> &nbsp;&nbsp;手&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+                        <el-input v-model="ruleForm.phone" class="in1"></el-input>
                     </el-form-item>
                     <el-form-item prop="birthday">
                         <span class="s1">*</span>
                         <label class="lb1"> 生&nbsp;&nbsp;&nbsp;&nbsp;日</label>
-                        <el-date-picker v-model="formData.birthday" class="in1" type="data"
+                        <el-date-picker v-model="ruleForm.birthday" class="in1" type="data"
                             style="margin-left: 30px;width: 300px;" placeholder="2020-01-04"></el-date-picker>
                     </el-form-item>
                     <el-form-item prop="sign">
                         <span class="s1">*</span>
                         <label class="lb1"> 签&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-                        <el-input v-model="formData.sign" class="in1" style="height: 70px;"></el-input>
+                        <el-input v-model="ruleForm.sign" class="in1" style="height: 70px;"></el-input>
                     </el-form-item>
                     <el-form-item prop="selectedValue">
                         <span class="s1">*</span>
                         <label class="lb1"> 地&nbsp;&nbsp;&nbsp;&nbsp;区</label>
-                        <el-select v-model="formData.selectedValue" style="width: 300px;margin-left: 30px;"
-                            placeholder="地区">
-                            <el-option label="长沙" value="1"></el-option>
-                            <el-option label="株洲" value="2"></el-option>
-                            <el-option label="湘潭" value="3"></el-option>
-                        </el-select>
+                        <el-select v-model="selectedProvince" style="width: 300px; margin-left: 30px;">
+                            <el-option
+                                v-for="province in provinces"
+                                :key="province"
+                                :label="province"
+                                :value="province"
+                            />
+                            </el-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button
@@ -65,67 +66,68 @@
         </div>
     </div>
 </template>
-  
-<script>
-import { ref } from 'vue';
-export default {
-    data() {
-        return {
-            selectedOption: null,
-            formData: {
-                username: "",
-                password: "",
-                phone: "",
-                birthday: "",
-                selectedValue: "",
-                sign: ""
-            }
-        };
-    },
-    methods: {
-        handleSelection() {
-            if (this.selectedOption === 'option1') {
-            } else if (this.selectedOption === 'option2') {
-            } else if (this.selectedOption === 'option3') {
-            }
-        },
-        register() {
-            this.$refs.formRef.validate((valid) => {
-                if (valid) {
-                    alert("注册成功");
-                    console.log('注册成功，表单数据：', this.formData);
-                } else {
-                    alert("除电话以外其余不能为空")
-                    console.log('表单验证不通过');
-                }
-            });
-        }
-    },
-    validations: {
-        username: [
-            { required: true, message: '用户名不能为空', trigger: 'blur' }
-        ],
-        password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
-        ],
-        sign: [
-            { required: true, message: '签名不能为空', trigger: 'blur' }
-        ]
-    }
-};
 
+<script lang="js" setup>
+import { ref } from 'vue';
+import { reactive } from 'vue'
+const ruleForm = reactive({
+    username: '',
+    password: '',
+    phone: '',
+    birthday: '',
+    sign: '',
+    selectedValue: '',
+    selectedOption: null
+})
+
+const rules = reactive({
+    username:[
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 5, message: '长度应该在3-5之间', trigger: 'blur' },
+    ],
+
+    password:[
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 8, message: '长度应该在6-8之间', trigger: 'blur' },
+    ],
+    birthday:[
+    { required: true, message: '请输入生日', trigger: 'blur' },
+    ],
+    sign:[
+    { required: true, message: '请签名', trigger: 'blur' },
+    ],
+    selectedValue:[
+    { required: true, message: '请填入地区', trigger: 'blur' },
+    ],
+})
+const register = () => {
+    console.log('register');
+
+}
+//单选按钮点击选中
+const selectedOption = ref(null);
+const provinces = ref([
+      "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "辽宁省", "吉林省", "黑龙江省", 
+      "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省", 
+      "广东省", "海南省", "四川省", "贵州省", "云南省", "陕西省", "甘肃省", "青海省", "台湾省", 
+      "内蒙古自治区", "广西壮族自治区", "西藏自治区", "宁夏回族自治区", "新疆维吾尔自治区", "香港特别行政区", "澳门特别行政区"
+    ]);
+    const selectedProvince = ref('北京市');
 </script>
 
 <style scoped>
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 .left {
     width: 60%;
     display: inline-block;
     float: left;
-    text-align: center;
 }
 
 .right {
-    margin-top: 20px;
     width: 40%;
     display: inline-block;
     float: right;
@@ -136,6 +138,7 @@ export default {
 .img1 {
     width: 100%;
     height: 600px;
+    margin: 0px;
 }
 
 .le1 {
@@ -143,7 +146,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .s1 {
@@ -164,11 +166,10 @@ export default {
     margin-left: 30px;
 }
 
-.el-form {
-    margin-top: 30px;
-}
-
 .el-radio {
     margin-left: 30px;
 }
-</style>
+
+.el-form-item {
+    margin-top: 20px;
+}</style>

@@ -7,27 +7,34 @@
             </div>
             <div class="nav-links">
                 <RouterLink to="/" class="nav-item">首页</RouterLink>
+                <RouterLink to="/songList" class="nav-item">歌单</RouterLink>
                 <RouterLink to="/sings" class="nav-item">歌手</RouterLink>
-                <RouterLink to="/songlist" class="nav-item">歌单</RouterLink>
-               
+
             </div>
             <div class="search">
                 <el-input class="custom-input" placeholder="搜索歌曲歌手" :suffix-icon="Search" v-model="input" />
             </div>
             <div class="block">
-                <el-avatar :size="50" :src="avatarSrc"/>
+                <el-avatar :size="50" :src="avatarSrc" @click="onClickUserAvatar" />
             </div>
         </el-header>
     </el-container>
 </template>
 
 <script setup>
-import { ref,reactive,toRef} from 'vue'
+import { ref, reactive, toRef, } from 'vue'
+import { useRouter } from 'vue-router'
 import { Search } from '@element-plus/icons-vue'
 import { ElInput, ElHeader, ElContainer, ElAvatar } from 'element-plus' // 导入必要的组件
+
 const input = ref('')
 // 引入图片资源
 import avatarSrc from '@/assets/images/用户.png';
+const router = useRouter();
+const onClickUserAvatar = () => {
+    router.push('/userIndex');
+}
+
 </script>
 
 <style scoped>
@@ -35,9 +42,11 @@ import avatarSrc from '@/assets/images/用户.png';
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* 使块居中 */
+    height: 100vh;
+    /* 使块居中 */
     margin-left: 10px;
 }
+
 .navbar {
     display: flex;
     /* 使用 Flexbox 布局 */
