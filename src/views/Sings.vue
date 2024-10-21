@@ -153,4 +153,10 @@ const page=ref(['<',1,'>']);
     color:gray;
     text-decoration: none;
   }
+  .pagination a:hover{
+    color: white;
+  }
+  .pagination li:hover{
+    background-color:rgba(64, 158, 255, 1);
+  }
 </style>
