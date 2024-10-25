@@ -22,14 +22,12 @@
         </el-container>
         
         <div >
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                <li style="background-color: white;width: 60px;">Total 10</li>
-                <li v-for="pageNumber in page " :key="pageNumber" :class="{ active: pageNumber === currentPage }">
-                    <a href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
-                </li>
-                </ul>
-            </nav>
+            <ul class="pagination">
+              <li style="width: 80px;background-color: white;">Total 10</li>
+              <li>&lt;</li>
+              <li @click="showAllDivs">1</li>
+              <li>></li>
+            </ul>
         </div>
     </div>
 </template>
