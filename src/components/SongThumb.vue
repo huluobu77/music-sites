@@ -13,7 +13,7 @@ defineProps({
 })
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 .image-item {
     position: relative;
     border-radius: 10px;

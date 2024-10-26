@@ -17,6 +17,20 @@
         </div>  
 
 
+        <div class="upload" v-show="isVisible">
+        <p class="title">修改头像</p>
+        <hr/>
+        <div class="section">
+            <el-upload :show-file-list="false" 
+            >
+            <div>
+                将文件拖到此处或点击上传
+            </div>
+            </el-upload>
+        </div>
+    ···</div>
+
+
         <div class="bottom">
             <h4>收藏歌曲</h4>
 
@@ -40,6 +54,7 @@
 <script setup>
 
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { h } from 'vue';
 
 
 //更新用户头像
@@ -68,9 +83,13 @@ const tableData = [
   },
 ]
 
+
+
 const open = () => {
-  ElMessageBox.alert('修改头像', {
-    // confirmButtonText: 'OK',
+
+
+  
+  ElMessageBox.alert('修改头像',{
     callback: (action) => {
       // 使用action作为字符串类型进行处理
       if (action === 'confirm') {

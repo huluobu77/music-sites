@@ -494,7 +494,7 @@ const songList7 = ref([
     },
   };
   </script>
-<style lang="scss" scoped>
+<style scoped>
 *{
     margin: 0px;
     padding: 0px;
