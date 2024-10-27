@@ -16,22 +16,6 @@
 
       </div>  
 
-      <!-- <div class="upload" v-show="isUploadVisible">
-        <p class="title">修改头像</p>
-        <hr/>
-        <div class="section">
-            <el-upload>
-            <div>
-                将文件拖到此处或点击上传
-            </div>
-            </el-upload>
-        </div>
-  ···</div> -->
-
-  
-
-
-
       <div class="bottom">
           <h4>收藏歌曲</h4>
 
@@ -46,73 +30,83 @@
 
       </div>
 
-     
 </div>
 </template>
 
 
 <script setup lang="ts">
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElUpload, ElMessageBox, ElMessage } from 'element-plus';
 import { h } from 'vue';
-
 import { ref } from 'vue';
 
 const open = () => {
   ElMessageBox({
     title: '修改头像',
     message: h('div', {
-    attrs: {
+      attrs: {
         class: 'el-textarea'
-    }
-}, [
-    h('div', {
+      }
+    }, [
+      h(ElUpload, {
         attrs: {
-            class:'message-header'
+          class: 'el-upload',
+          action: '/your-upload-url',
+          multiple: false,
+          accept: 'image/jpeg,image/png,image/gif',
+          onSuccess: handleUploadSuccess,
+          onError: handleUploadError,
+          beforeUpload: beforeUploadFile
         }
-    }),
-    h('div', {
-        attrs: {
-            class:'message-info'
-        }
-    }, '将文件拖到此处或点击上传'),
-    h('p', {
-        attrs: {
-            class:'message-limit'
-        }
-    }, '只能上传jpg、jpeg、png、gif 文件, 且不超过10M'),
-    // h('input', {
-    //     attrs: {
-    //         type: 'file',
-    //         class: 'el-upload__input',
-    //         accept: 'image/jpeg,image/png,image/gif'
-    //     },
-    // })
-]),
-    // showCancelButton: true,
-    // confirmButtonText: 'OK',
-    // cancelButtonText: 'Cancel',
-    // beforeClose: (action, instance, done) => {
-    //   if (action === 'confirm') {
-    //     instance.confirmButtonLoading = true
-    //     instance.confirmButtonText = 'Loading...'
-    //     setTimeout(() => {
-    //       done()
-    //       setTimeout(() => {
-    //         instance.confirmButtonLoading = false
-    //       }, 300)
-    //     }, 3000)
-    //   } else {
-    //     done()
-    //   }
-    // },
-  }).then((action) => {
-    ElMessage({
-      type: 'info',
-      message: `action: ${action}`,
-    })
-  })
-}
+      }, [
+        h('div', {
+            style: {
+            border: '2px dashed #ccc',
+            padding: '50px',
+            borderRadius: '5px',
+            margin: '50px 50px', // 设置上下外边距为10像素，左右外边距为0
+          }
+        }, '将文件拖到此处或点击上传'),
+        h('div', {
+          style:{
+            margin:'5px 0px'
+          }          
+        }, '只能上传jpg、jpeg、png、gif 文件, 且不超过10M')
+      ])
+    ]),
+    showConfirmButton: false // 隐藏确定按钮
+  });
+};
+
+// 上传成功的回调函数
+const handleUploadSuccess = (response, file, fileList) => {
+  ElMessage.success('头像上传成功');
+  // updateAvatar(response.url); 
+};
+
+// 上传失败的回调函数
+const handleUploadError = (error, file, fileList) => {
+  ElMessage.error('头像上传失败，请稍后重试');
+};
+
+// 上传前的钩子函数
+const beforeUploadFile = (file) => {
+  const fileSize = file.size / 1024 / 1024;
+  const fileExtension = file.name.split('.').pop().toLowerCase();
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+  if (fileSize > 10) {
+    ElMessage.error('文件大小超过10M，请选择较小的文件');
+    return false;
+  }
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    ElMessage.error('不支持的文件格式，请选择jpg、jpeg、png或gif文件');
+    return false;
+  }
+
+  return true;
+};
 
 
 // el-table的定义数据
@@ -125,6 +119,7 @@ const tableData = [
   time:'3:42',
 },
 ]
+
 
 
 </script>
@@ -221,5 +216,11 @@ padding-left: 30px;
 padding-right: 30px;
 }
 
+.el-upload__text {
+  margin-bottom: 5px;
+  border: 2px dashed #ccc; /* 添加2像素宽的灰色虚线边框 */
+  padding: 10px; /* 添加内边距，使内容与边框有一定距离 */
+  border-radius: 5px; /* 添加边框圆角，使边框看起来更美观 */
+}
 
 </style>
