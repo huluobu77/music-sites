@@ -16,8 +16,7 @@
 
         </div>  
 
-
-        <div class="upload" v-show="isVisible">
+        <div class="upload" v-show="isUploadVisible">
         <p class="title">修改头像</p>
         <hr/>
         <div class="section">
@@ -29,7 +28,6 @@
             </el-upload>
         </div>
     ···</div>
-
 
         <div class="bottom">
             <h4>收藏歌曲</h4>
@@ -55,6 +53,22 @@
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { h } from 'vue';
+
+import { ref } from 'vue';
+
+const isUploadVisible = ref(false);
+
+const open = () => {
+  ElMessageBox.alert('修改头像', {
+    callback: (action) => {
+      if (action === 'confirm') {
+        isUploadVisible.value = true;
+      } else if (action === 'cancel') {
+        // 取消操作的处理，可根据需求添加
+      }
+    }
+  });
+};
 
 
 //更新用户头像
@@ -85,28 +99,25 @@ const tableData = [
 
 
 
-const open = () => {
-
-
-  
-  ElMessageBox.alert('修改头像',{
-    callback: (action) => {
-      // 使用action作为字符串类型进行处理
-      if (action === 'confirm') {
-        ElMessage({
-          type: 'info',
-          message: '用户点击'
-        });
-        // 处理其它情况
-      } else if (action === 'cancel') {
-        ElMessage({
-          type: 'info',
-          message: '用户取消'
-        });
-      }
-    }
-  });
-};
+// const open = () => {
+//   ElMessageBox.alert('修改头像',{
+//     callback: (action) => {
+//       // 使用action作为字符串类型进行处理
+//       if (action === 'confirm') {
+//         ElMessage({
+//           type: 'info',
+//           message: '用户点击'
+//         });
+//         // 处理其它情况
+//       } else if (action === 'cancel') {
+//         ElMessage({
+//           type: 'info',
+//           message: '用户取消'
+//         });
+//       }
+//     }
+//   });
+// };
 
 
 
