@@ -76,23 +76,23 @@ const ruleForm = reactive({
 })
 
 const rules = reactive({
-    username:[
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 5, message: '长度应该在3-5之间', trigger: 'blur' },
+    username: [
+        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { min: 3, max: 5, message: '长度应该在3-5之间', trigger: 'blur' },
     ],
 
-    password:[
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 8, message: '长度应该在6-8之间', trigger: 'blur' },
+    password: [
+        { required: true, message: '请输入密码', trigger: 'blur' },
+        { min: 6, max: 8, message: '长度应该在6-8之间', trigger: 'blur' },
     ],
-    birthday:[
-    { required: true, message: '请输入生日', trigger: 'blur' },
+    birthday: [
+        { required: true, message: '请输入生日', trigger: 'blur' },
     ],
-    sign:[
-    { required: true, message: '请签名', trigger: 'blur' },
+    sign: [
+        { required: true, message: '请签名', trigger: 'blur' },
     ],
-    selectedValue:[
-    { required: true, message: '请填入地区', trigger: 'blur' },
+    selectedValue: [
+        { required: true, message: '请填入地区', trigger: 'blur' },
     ],
 })
 const register = () => {
@@ -102,12 +102,12 @@ const register = () => {
 //单选按钮点击选中
 const selectedOption = ref(null);
 const provinces = ref([
-      "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "辽宁省", "吉林省", "黑龙江省", 
-      "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省", 
-      "广东省", "海南省", "四川省", "贵州省", "云南省", "陕西省", "甘肃省", "青海省", "台湾省", 
-      "内蒙古自治区", "广西壮族自治区", "西藏自治区", "宁夏回族自治区", "新疆维吾尔自治区", "香港特别行政区", "澳门特别行政区"
-    ]);
-    const selectedProvince = ref('北京市');
+    "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "辽宁省", "吉林省", "黑龙江省",
+    "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省",
+    "广东省", "海南省", "四川省", "贵州省", "云南省", "陕西省", "甘肃省", "青海省", "台湾省",
+    "内蒙古自治区", "广西壮族自治区", "西藏自治区", "宁夏回族自治区", "新疆维吾尔自治区", "香港特别行政区", "澳门特别行政区"
+]);
+const selectedProvince = ref('北京市');
 </script>
 
 <style scoped>

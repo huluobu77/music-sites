@@ -1,11 +1,12 @@
 <template>
     <div class="music-player">
-        <el-slider class="progress-bar" v-model="playTime" :format-tooltip="tooltipFormat" size="small"
-            :max="sliderLength" @change="changePlayTime" />
+        <el-slider class="progress-bar" v-model="playTime" :format-tooltip="tooltipFormat" size="small" :max="sliderLength"
+            @change="changePlayTime" />
         <div class="horizontal-layout">
 
             <div class="vertical-layout">
-                <img class="music-disk-picture" src="/src/assets/images/test_pic.png" alt="Music Disk" />
+                <img @click="goSongDetail" class="music-disk-picture" src="/src/assets/images/test_pic.png"
+                    alt="Music Disk" />
                 <div class="text-layout">
                     <p class="text">好运来</p>
                     <p class="text_time">{{ formatTime(playTime) }}/{{ formatTime(sliderLength) }}</p>
@@ -47,7 +48,7 @@
                     <img src="/src/assets/images/sidebar.png" alt="Sidebar" class="icon" />
                 </el-button>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -55,6 +56,8 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { ElMessage, ElDialog, ElSlider, ElButton } from "element-plus";
+import { useRouter } from 'vue-router'
+const router = useRouter();
 // 播放条
 const playTime = ref(0);
 const sliderLength = ref(200);
@@ -111,7 +114,9 @@ const toggleVolume = () => {
         type: 'info',
     });
 };
-
+const goSongDetail = () => {
+    router.push('/detail')
+}
 </script>
 
 <style scoped>
