@@ -8,6 +8,7 @@ import Register from '@/views/Register.vue'
 import UserIndex from '@/views/UserIndex.vue'
 import USerEdit from '@/views/USerEdit.vue'
 
+
 const routes = [
     { path: '/', component: Index },
     { path: '/sings', component: Sings },
