@@ -18,7 +18,7 @@
                 </div>
             </el-main>
         </el-container>
-       
+
         <div>
 
         </div>
@@ -47,25 +47,28 @@ const getAllBanner = async () => {
     console.log(res)
 }
 
-getAllBanner();
+// getAllBanner();
 
 </script>
 
 <style scoped>
-*{
+* {
     margin: 0px;
     padding: 0px;
 }
-.h1{
+
+.h1 {
     display: inline;
     margin: 30px;
 }
-.btn1{
+
+.btn1 {
     border: none;
     background: white;
     margin-left: 30px;
     color: gray;
 }
+
 .image-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -90,5 +93,4 @@ getAllBanner();
 
 .image-description {
     margin-top: 8px;
-}
-</style>
+}</style>
