@@ -7,7 +7,8 @@ import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import UserIndex from '@/views/UserIndex.vue'
 import USerEdit from '@/views/USerEdit.vue'
-
+import Detail from '@/views/Detail.vue'
+import SingerDetail from '@/views/SingerDetail.vue'
 
 const routes = [
     { path: '/', component: Index },
@@ -16,7 +17,10 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/userIndex', component: UserIndex },
-    { path: '/userEdit', component: USerEdit }
+    { path: '/userEdit', component: USerEdit },
+    { path: '/detail', component: Detail },
+    { path: '/singerDetail', component: SingerDetail }
+
 ]
 
 const router = createRouter({

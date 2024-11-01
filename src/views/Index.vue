@@ -50,7 +50,7 @@ const getAllBanner = async () => {
     console.log(res)
 }
 
-getAllBanner();
+// getAllBanner();
 
 </script>
 
