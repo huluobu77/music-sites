@@ -62,9 +62,9 @@ const open = () => {
         h('div', {
             style: {
             border: '2px dashed #ccc',
-            padding: '50px',
+            padding: '80px',
             borderRadius: '5px',
-            margin: '50px 50px', // 设置上下外边距为10像素，左右外边距为0
+            margin: '50px 50px', // 设置上下外边距，左右外边距
           }
         }, '将文件拖到此处或点击上传'),
         h('div', {
