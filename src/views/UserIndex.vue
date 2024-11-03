@@ -48,41 +48,41 @@ const goModifyUserPage = () => {
     router.push('/userEdit')
 }
 const open = () => {
-    ElMessageBox({
-        title: '修改头像',
-        message: h('div', {
-            attrs: {
-                class: 'el-textarea'
-            }
-        }, [
-            h(ElUpload, {
-                attrs: {
-                    class: 'el-upload',
-                    action: '/your-upload-url',
-                    multiple: false,
-                    accept: 'image/jpeg,image/png,image/gif',
-                    onSuccess: handleUploadSuccess,
-                    onError: handleUploadError,
-                    beforeUpload: beforeUploadFile
-                }
-            }, [
-                h('div', {
-                    style: {
-                        border: '2px dashed #ccc',
-                        padding: '50px',
-                        borderRadius: '5px',
-                        margin: '50px 50px', // 设置上下外边距为10像素，左右外边距为0
-                    }
-                }, '将文件拖到此处或点击上传'),
-                h('div', {
-                    style: {
-                        margin: '5px 0px'
-                    }
-                }, '只能上传jpg、jpeg、png、gif 文件, 且不超过10M')
-            ])
-        ]),
-        showConfirmButton: false // 隐藏确定按钮
-    });
+  ElMessageBox({
+    title: '修改头像',
+    message: h('div', {
+      attrs: {
+        class: 'el-textarea'
+      }
+    }, [
+      h(ElUpload, {
+        attrs: {
+          class: 'el-upload',
+          action: '/your-upload-url',
+          multiple: false,
+          accept: 'image/jpeg,image/png,image/gif',
+          onSuccess: handleUploadSuccess,
+          onError: handleUploadError,
+          beforeUpload: beforeUploadFile
+        }
+      }, [
+        h('div', {
+            style: {
+            border: '2px dashed #ccc',
+            padding: '80px',
+            borderRadius: '5px',
+            margin: '50px 50px', // 设置上下外边距，左右外边距
+          }
+        }, '将文件拖到此处或点击上传'),
+        h('div', {
+          style:{
+            margin:'5px 0px'
+          }          
+        }, '只能上传jpg、jpeg、png、gif 文件, 且不超过10M')
+      ])
+    ]),
+    showConfirmButton: false // 隐藏确定按钮
+  });
 };
 
 // 上传成功的回调函数
