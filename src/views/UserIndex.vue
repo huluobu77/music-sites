@@ -132,7 +132,7 @@ const tableData = [
 </script>
 
 
-<style lang="scss" scoped>
+<style scoped>
 * {
     padding: 0px;
     margin: 0px;

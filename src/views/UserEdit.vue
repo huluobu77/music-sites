@@ -165,7 +165,7 @@ const onSubmit = () => {
 
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 
 .all{
     margin-top: 30px;
