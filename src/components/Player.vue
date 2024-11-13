@@ -172,6 +172,7 @@ const goSongDetail = () => {
     margin: 5px;
     border-radius: 10%;
     overflow: hidden;
+    
 }
 
 .text-layout {

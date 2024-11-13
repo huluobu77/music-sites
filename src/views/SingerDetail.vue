@@ -15,7 +15,7 @@
                     <span style="margin-left: 125px;color: gray;">{{ item.age }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span style="color: gray;">{{ item.city }}</span><br>
                     <span style="margin-left: 125px;color: gray;">{{ item.introduce }}</span><br>
-                    <button class="btn_1"><img src="D:\桌面\Desktop\音乐项目\music-sites\src\assets\images\播放.png" width="15px" height="15px">播放全部</button>
+                    <button class="btn_1"><img src="E:\Git\music sites\music-sites\src\assets\images\播放.png" width="15px" height="15px">播放全部</button>
                 </div>
             </div>
 
@@ -87,8 +87,7 @@ const tableData = [
 
 </script>
 
-
-<style lang="scss" scoped>
+<style scoped>
 * {
     padding: 0px;
     margin: 0px;
@@ -110,7 +109,7 @@ const tableData = [
     margin-right: 50px;
 }
 
-// 头像区域的背景设置
+ /* 头像区域的背景设置 */
 .top::before {
     content: "";
     position: absolute;
@@ -176,7 +175,7 @@ h4 {
     /* 距离顶部为0 */
     left: 50px;
     /* 距离左侧为0 */
-    // font-weight: 545;
+   font-weight: 545;
 }
 
 h5 {

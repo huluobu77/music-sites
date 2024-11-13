@@ -64,7 +64,6 @@ const onClickUserAvatar = () => {
 
 .search {
     justify-content: right;
-
 }
 
 .custom-input .el-input__inner {
