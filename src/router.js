@@ -9,6 +9,7 @@ import UserIndex from '@/views/UserIndex.vue'
 import USerEdit from '@/views/USerEdit.vue'
 import Detail from '@/views/Detail.vue'
 import SingerDetail from '@/views/SingerDetail.vue'
+import SingDetail from '@/views/SingDetail.vue'
 
 const routes = [
     { path: '/', component: Index },
@@ -19,7 +20,8 @@ const routes = [
     { path: '/userIndex', component: UserIndex },
     { path: '/userEdit', component: USerEdit },
     { path: '/detail', component: Detail },
-    { path: '/singerDetail', component: SingerDetail }
+    { path: '/singerDetail', component: SingerDetail },
+    { path: '/singDetail', component: SingDetail }
 
 ]
 
