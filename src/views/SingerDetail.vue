@@ -15,7 +15,7 @@
                     <span style="margin-left: 125px;color: gray;">{{ item.age }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span style="color: gray;">{{ item.city }}</span><br>
                     <span style="margin-left: 125px;color: gray;">{{ item.introduce }}</span><br>
-                    <button class="btn_1"><img src="D:\桌面\Desktop\音乐项目\music-sites\src\assets\images\播放.png" width="15px" height="15px">播放全部</button>
+                    <button class="btn_1"><img src="https://img.js.design/assets/img/66efba183280c0d64a9eadcd.png#9fc9052ab773451d4f02aedb41d48f0d" width="15px" height="15px">播放全部</button>
                 </div>
             </div>
 
