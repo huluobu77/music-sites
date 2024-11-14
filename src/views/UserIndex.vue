@@ -132,7 +132,7 @@ const tableData = [
 </script>
 
 
-<style lang="scss" scoped>
+<style scoped>
 * {
   padding: 0px;
   margin: 0px;
@@ -146,7 +146,7 @@ const tableData = [
   margin-right: 50px;
 }
 
-// 头像区域的背景设置
+
 .top::before {
   content: "";
   position: absolute;
@@ -205,7 +205,7 @@ h4 {
   /* 距离顶部为0 */
   left: 50px;
   /* 距离左侧为0 */
-  // font-weight: 545;
+  font-weight: 545;
 }
 
 h5 {
