@@ -22,7 +22,7 @@
                         <i class="star">&#9733;</i><i class="star">&#9733;</i><i class="star1">&#9733;</i>
                         <i class="star1">&#9733;</i></span>
                         <span style="font-size: 9px;margin-left: 10px;">3星</span><br>
-                    <button class="btn_1"><img src="D:\桌面\Desktop\音乐项目\music-sites\src\assets\images\播放.png" width="15px" height="15px">播放全部</button>
+                    <button class="btn_1"><img src="/src/assets/images/播放.png" width="15px" height="15px">播放全部</button>
                 </div>
             </div>
 

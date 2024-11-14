@@ -6,10 +6,11 @@ import SongList from '@/views/SongList.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import UserIndex from '@/views/UserIndex.vue'
-import USerEdit from '@/views/USerEdit.vue'
+import UserEdit from '@/views/UserEdit.vue'
 import Detail from '@/views/Detail.vue'
 import SingerDetail from '@/views/SingerDetail.vue'
 import SingDetail from '@/views/SingDetail.vue'
+import SearchDetail from '@/views/SearchDetail.vue'
 
 const routes = [
     { path: '/', component: Index },
@@ -18,10 +19,11 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/userIndex', component: UserIndex },
-    { path: '/userEdit', component: USerEdit },
+    { path: '/userEdit', component: UserEdit },
     { path: '/detail', component: Detail },
     { path: '/singerDetail', component: SingerDetail },
-    { path: '/singDetail', component: SingDetail }
+    { path: '/singDetail', component: SingDetail },
+    { path: '/SearchDetail', component: SearchDetail }
 
 ]
 
