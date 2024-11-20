@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:9000/';
+import { BASE_URL } from "./constant";
 
 axios.defaults.timeout = 5000; // 超时时间设置
 axios.defaults.withCredentials = true; // true允许跨域

@@ -1,8 +1,8 @@
 <template>
     <div class="index">
         <el-carousel indicator-position="outside">
-            <el-carousel-item v-for="(item, index) in carouselItems" :key="index">
-                <img :src="item.image" alt="" class="carousel-image" />
+            <el-carousel-item v-for="(item, index) in carouselItems" :key="item.id">
+                <img :src="BASIC_IAMAGE_URL + item.pic" alt="" class="carousel-image" />
             </el-carousel-item>
         </el-carousel>
 
@@ -22,12 +22,9 @@ import { ref } from 'vue';
 import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
 import SongThumb from '../components/SongThumb.vue';
 import { httpManager } from '@/api';
-
+import { BASIC_IAMAGE_URL } from './../constant.js'
 // 定义轮播内容，包含图片路径和文本
 const carouselItems = ref([
-    { image: "/src/assets/images/image.png" },
-    { image: "/src/assets/images/image.png" },
-    { image: "/src/assets/images/image.png" },
 ]);
 
 // 定义网格内容
@@ -45,20 +42,20 @@ const gridItems = ref([
 ]);
 
 const getAllBanner = async () => {
-    httpManager.test();
     const res = await httpManager.getAllBanner();
-    console.log(res)
+    carouselItems.value = res.data;
 }
 
-// getAllBanner();
+getAllBanner();
 
 </script>
 
 <style scoped>
-.index{
+.index {
     margin-top: 20px;
     padding: 0 40px;
 }
+
 .carousel-image {
     width: 100%;
     height: 398px;

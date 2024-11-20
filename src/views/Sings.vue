@@ -8,13 +8,13 @@
         <button class="btn1" @click="showAllDivs">全部歌手</button>
         <div class="image-grid" id="nan" v-show="visibleDiv === 1 || showAll">
           <div class="image-item" v-for="(item, index) in sings1" :key="index" @click="goDetail">
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt=""  @click="singerdetailPage"/>
             <div class="image-description">{{ item.description }}</div>
           </div>
         </div>
         <div class="image-grid" id="nv" v-show="visibleDiv === 2 || showAll">
           <div class="image-item" v-for="(item, index) in sings2" :key="index">
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" @click="singerdetailPage"/>
             <div class="image-description">{{ item.description }}</div>
           </div>
         </div>
@@ -37,6 +37,9 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { httpManager } from '@/api';
 const router = useRouter();
+const singerdetailPage = () => {
+    router.push('/SingerDetail')
+}
 const sings1 = ref([
   { image: "/src/assets/images/sing.jpg", description: "男歌手" },
   { image: "/src/assets/images/sing.jpg", description: "描述 2" },

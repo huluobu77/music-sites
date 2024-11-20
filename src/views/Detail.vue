@@ -2,7 +2,7 @@
     <div class="horizontal-layout">
         <div class="box">
             <div class="left">
-                <img src="/src/assets/images/test_pic.png" />
+                <img src="/src/assets/images/test_pic.png" class="img" />
                 <div class="text-container">
                     <p class="singer">歌手：周玲</p>
                     <p class="song">歌曲：好运来</p>
@@ -12,18 +12,21 @@
                 <div class="sing">
                     <img src="/src/assets/images/test_pic.png" class="blurred-image" />
                     <div class="scroll-container">
-                        <el-scrollbar height="696px">
-                            <div class="lyrics">
-                                <h2>好运来</h2>
-                                <p>这是第一句歌词。</p>
-                                <p>这是第二句歌词。</p>
-                                <p>这是第三句歌词。</p>
-                                <p>这是第四句歌词。</p>
-                                <p>这是第五句歌词。</p>
-                                <p>...</p>
-                                <p>（更多歌词内容）</p>
-                            </div>
-                        </el-scrollbar>
+                        <div class="lyrics">
+                            <h2>好运来</h2>
+                            <p>这是第一句歌词。</p>
+                            <p>这是第二句歌词。</p>
+                            <p>这是第三句歌词。</p>
+                            <p>这是第四句歌词。</p>
+                            <p>这是第四句歌词。</p>
+                            <p>这是第四句歌词。</p>
+                            <p>这是第四句歌词。</p>
+                            <p>这是第四句歌词。</p>
+
+                            <p>这是第五句歌词。</p>
+                            <p>...</p>
+                            <p>（更多歌词内容）</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,7 +43,7 @@
                 <el-button type="primary" @click="submit" class="submit">发布</el-button>
             </div>
             <div class="comment_item">
-                <img src="./assets/img/tianzhidao/logo.png" class="music-disk-picture" />
+                <img src="/src/assets/images/test_pic.png" class="music-disk-picture" />
                 <div class="comment_item_text">
                     <p style="font-size: 16px; color: gray">tina</p>
                     <p style="font-size: 16px; color: gray">2024-11-3 15:25</p>
@@ -48,11 +51,11 @@
                 </div>
                 <div class="comment_item_right">
                     <el-button link type="primary" size="large" @click="incrementCount">
-                        <img src="/src/assets/images/sidebar.png" alt="Sidebar" class="icon" />
+                        <img src="/src/assets/images/点赞.png" alt="Sidebar" class="icon" />
                     </el-button>
                     <p>{{ count }}</p>
-                    <el-button link type="primary" size="large" @click="incrementCount">
-                        <img src="/src/assets/images/sidebar.png" alt="Sidebar" class="icon" />
+                    <el-button link type="primary" size="large" @click="deleteCount">
+                        <img src="/src/assets/images/删除.png" alt="Sidebar" class="icon" />
                     </el-button>
                 </div>
             </div>
@@ -64,14 +67,17 @@
   
 <script setup>
 import { ref } from "vue";
-import { ElScrollbar, ElInput } from "element-plus";
+import { ElMessage } from "element-plus";
 const count = ref(1); // 初始化计数
 
 const incrementCount = () => {
     count.value += 1; // 每次点击加1
 };
+const deleteCount = () => {
+    ElMessage.success(`删除成功！`);
+}
 </script>
-  
+
 <style scoped>
 .comment_item_right {
     display: flex;
@@ -81,7 +87,7 @@ const incrementCount = () => {
     /* 允许它在空间中扩展 */
     gap: 20px;
     /* 控制按钮之间的间距 */
-    margin-right: 30px;
+    margin-right: 15px;
     align-items: center;
     /* 垂直居中对齐 */
 }
@@ -96,6 +102,8 @@ const incrementCount = () => {
     margin: 5px;
     border-radius: 50%;
     overflow: hidden;
+    z-index: 0;
+    /* 位于底层 */
 }
 
 .submit {
@@ -126,7 +134,7 @@ const incrementCount = () => {
     /* 宽度设置为100% */
     max-width: 1257px;
     /* 最大宽度设置为600px */
-    height: 80px;
+    height: 30px;
     /* 调整高度 */
     font-size: 16px;
     /* 调整字体大小 */
@@ -142,12 +150,7 @@ const incrementCount = () => {
 .box {
     width: 100%;
     display: flex;
-    padding: 20px;
-    /* 内边距 */
-    border-radius: 8px;
-    /* 圆角 */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* 阴影效果 */
+    margin-left: 20px;
 }
 
 .icon {
@@ -201,14 +204,18 @@ const incrementCount = () => {
     height: 600px;
     align-items: center;
     /* 水平居中对齐 */
+    justify-content: center;
+    /* 垂直居中对齐 */
 }
 
-img {
-    width: 200px;
+
+.img {
+    width: 350px;
     /* 调整为适合的大小 */
-    height: 200px;
+    height: 350px;
     margin: 20px;
     border-radius: 50%;
+    /* 圆形 */
 }
 
 .text-container {
@@ -216,8 +223,7 @@ img {
 }
 
 p {
-    margin: 20px;
-    font-weight: bold;
+    margin: 8px;
     font-size: 20px;
     /* 设置字体大小为 24 像素 */
 }
@@ -228,61 +234,85 @@ p {
     width: 65%;
     position: relative;
     align-items: center;
+    margin-right: 20px;
     height: 600px;
+
 }
 
 .sing {
     width: 100%;
-    height: 600px;
-    overflow: hidden;
+    margin: 20px;
     align-items: center;
-    border-radius: 8px;
-    /* 圆角 */
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* 更强的白色背景 */
+    z-index: 1;
+    /* 确保在中间层 */
+    position: relative;
+    /* 确保内容处于最上层 */
+
 }
 
 .blurred-image {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: auto;
-    filter: blur(5px);
+    /* 绝对定位以覆盖整个容器 */
+    top: 20px;
+    /* 距离上边20px */
+    right: 20px;
+    /* 距离右边20px */
+    width: calc(100% - 30px);
+    /* 宽度为100%减去左右边距 */
+    height: calc(100% - 30px);
+    /* 高度为100%减去上下边距 */
     object-fit: cover;
-    filter: blur(80px);
-    /* 设置模糊效果 */
-    z-index: 1;
-    /* 设置z-index以在底层 */
+    /* 保持图像比例并填充 */
+    filter: blur(20px);
+    /* 只在图片上应用模糊效果 */
+    opacity: 0.2;
+    z-index: 0;
+    /* 确保图片在最底层 */
 }
 
-.scroll-container {
-    background: rgba(255, 255, 255, 0.8);
-    /* 更明亮的背景 */
 
+.scroll-container {
     padding: 20px;
     text-align: center;
     justify-content: center;
     /* 水平居中 */
     align-items: center;
     /* 垂直居中 */
+    z-index: 2;
+    overflow-y: auto;
+    /* 改为垂直滚动 */
+    height: 696px;
+    /* 确保容器有固定高度 */
+    max-width: 100%;
+    /* 确保宽度不会超出 */
+    position: relative;
+    /* 确保文字内容不会被遮挡 */
 }
 
 .lyrics {
     display: flex;
     flex-direction: column;
     /* 垂直排列 */
-
     font-size: 20px;
     /* 设置字体大小 */
     line-height: 1.5;
     /* 设置行高 */
     color: #444;
     /* 字体颜色 */
+    max-height: 80%;
+    /* 设置最大高度 */
+    overflow-y: auto;
+    /* 内容溢出时启用垂直滚动条 */
+    padding: 10px;
 }
 
 .lyrics p {
     margin: 10px 0;
     /* 段落上下间距 */
+    color: black;
 }
 
 .comment-input {
@@ -297,5 +327,8 @@ p {
     display: flex;
     align-items: center;
     /* 垂直居中 */
+    background-color: rgba(255, 255, 255, 0.2);
+    /* 白色透明背景 */
+    z-index: 1;
+    /* 位于中间 */
 }</style>
-  
