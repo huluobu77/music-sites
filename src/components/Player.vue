@@ -1,50 +1,61 @@
 <template>
     <div class="music-player">
-        <el-slider class="progress-bar" v-model="playTime" :format-tooltip="tooltipFormat" size="small" :max="sliderLength"
-            @change="changePlayTime" />
+        <el-slider class="progress-bar" v-model="nowTime" @change="changeTime" size="small" />
         <div class="horizontal-layout">
 
             <div class="vertical-layout">
-                <img @click="goSongDetail" class="music-disk-picture" src="/src/assets/images/test_pic.png"
+                <img @click="goPlayerPage" class="music-disk-picture" :src="attachImageUrl(this.songPic)"
                     alt="Music Disk" />
                 <div class="text-layout">
-                    <p class="text">好运来</p>
-                    <p class="text_time">{{ formatTime(playTime) }}/{{ formatTime(sliderLength) }}</p>
+                    <p class="text">{{ this.songTitle }} - {{ this.singerName }}</p>
+                    <p class="text_time">{{ startTime }}/{{ endTime }}</p>
                 </div>
             </div>
 
             <div class="controls">
-                <el-button link type="primary" size="large" @click="toggleRandomPlay">
+                <!-- 改变播放方式 -->
+                <!-- <el-button link type="primary" size="large" @click="changePlayState">
                     <img :src="isRandom
                         ? '/src/assets/images/orderplay.png'
                         : '/src/assets/images/randomplay.png'
                         " alt="Play Mode" class="icon" />
-                </el-button>
-                <el-button link type="primary" size="large">
+                </el-button> -->
+                <!-- 上一首 -->
+                <el-button link type="primary" size="large" @click="prev">
                     <img src="/src/assets/images/before.png" class="icon" alt="Previous" />
                 </el-button>
-                <el-button link type="primary" size="large" @click="RandomPlay">
-                    <img :src="isplayRandom
+                <!-- 播放 -->
+                <el-button link type="primary" size="large" @click="togglePlay">
+                    <img :src="isPlay
                         ? '/src/assets/images/stop.png'
                         : '/src/assets/images/begin.png'
                         " alt="Play Mode" class="icon" />
                 </el-button>
-                <el-button link type="primary" size="large">
+                <!-- 下一首 -->
+                <el-button link type="primary" size="large" @click="next">
                     <img src="/src/assets/images/after.png" class="icon" alt="Next" />
                 </el-button>
-                <el-button link type="primary" size="large" @click="toggleVolume">
-                    <img src="/src/assets/images/volume.png" alt="Volume" class="icon" />
-                </el-button>
+                <!--音量-->
+                <el-dropdown class="yin-play-show" trigger="click">
+                    <yin-icon v-if="volume !== 0" :icon="iconList.YINLIANG"></yin-icon>
+                    <yin-icon v-else :icon="iconList.JINGYIN"></yin-icon>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-slider class="yin-slider" style="height: 150px; margin: 10px 0" v-model="volume"
+                                :vertical="true"></el-slider>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
 
             <div class="right-layout">
-                <el-button link type="primary" size="large" @click="toggleLike">
-                    <img :src="isLikeRandom
-                        ? '/src/assets/images/Like.png'
-                        : '/src/assets/images/redLike.png'
+                <el-button link type="primary" size="large" @click="changeCollection">
+                    <img :src="isCollection
+                        ? '/src/assets/images/redLike.png'
+                        : '/src/assets/images/Like.png'
                         " alt="Like" class="icon" />
                 </el-button>
-                <el-button link type="primary" size="large" @click="toggleSidebar">
+                <el-button link type="primary" size="large" @click="changeAside">
                     <img src="/src/assets/images/sidebar.png" alt="Sidebar" class="icon" />
                 </el-button>
             </div>
@@ -52,78 +63,224 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import { ElMessage, ElDialog, ElSlider, ElButton } from "element-plus";
+<script>
+import { computed, defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
+import { mapGetters, useStore } from "vuex";
 import { useRouter } from 'vue-router'
-const router = useRouter();
-// 播放条
-const playTime = ref(0);
-const sliderLength = ref(200);
-let timer;
-const isplayRandom = ref(false);
-const tooltipFormat = (value) => `${value}秒`;
-const changePlayTime = (value) => {
-    ElMessage.info(`当前播放时间: ${value}`);
-};
+import mixin from "@/mixins/mixin";
+// import YinIcon from "@/components/YinIcon.vue";
+import { HttpManager } from "@/api";
+import { formatSeconds } from "@/utils";
+import { Icon } from "@/enums/icon";
 
-const startTimer = () => {
-    timer = setInterval(() => {
-        if (playTime.value < sliderLength.value) {
-            playTime.value++;
-        } else {
-            clearInterval(timer);
+export default defineComponent({
+    components: {
+        // YinIcon,
+    },
+    setup() {
+        const { proxy } = getCurrentInstance();
+        const store = useStore();
+        const router = useRouter();
+        const { routerManager, playMusic, checkStatus, downloadMusic } = mixin();
+
+        const isCollection = ref(false); // 是否收藏
+
+        const userIdVO = computed(() => store.getters.userId);
+        const songIdVO = computed(() => store.getters.songId);
+        const token = computed(() => store.getters.token);
+
+        watch(songIdVO, () => {
+            initCollection();
+        });
+        watch(token, (value) => {
+            if (!value) isCollection.value = false;
+        });
+
+        async function initCollection() {
+            if (!checkStatus(false)) return;
+
+            const userId = userIdVO.value;
+            const type = '0';
+            const songId = songIdVO.value;
+            isCollection.value = ((await HttpManager.isCollection({ userId, type, songId }))).data;
         }
-    }, 1000);
-};
 
-const RandomPlay = () => {
-    isplayRandom.value = !isplayRandom.value; // 切换播放状态
-    if (isplayRandom.value) {
-        startTimer(); // 开始计时器
-    } else {
-        clearInterval(timer); // 停止计时器
-    }
+        async function changeCollection() {
+            if (!checkStatus()) return;
 
-};
-onMounted(() => {
-    playTime.value = 0; // 初始化播放时间
+            const userId = userIdVO.value;
+            const type = '0'; //这里要看看 不能直接写死
+            const songId = songIdVO.value;
+
+            const result = isCollection.value
+                ? ((await HttpManager.deleteCollection(userIdVO.value, songIdVO.value)))
+                : ((await HttpManager.setCollection({ userId, type, songId })));
+            ElMessage({
+                message: result.message,
+                type: result.type,
+            })
+
+            if (result.data == true || result.data == false) isCollection.value = result.data;
+        }
+
+        onMounted(() => {
+            if (songIdVO.value) initCollection();
+        });
+
+        return {
+            isCollection,
+            playMusic,
+            routerManager,
+            checkStatus,
+            attachImageUrl: HttpManager.attachImageUrl,
+            changeCollection,
+            downloadMusic
+        };
+    },
+    data() {
+        return {
+            startTime: "00:00",
+            endTime: "00:00",
+            nowTime: 0, // 进度条的位置
+            toggle: true,
+            volume: 50,
+            playState: Icon.XUNHUAN,
+            playStateList: [Icon.XUNHUAN, Icon.LUANXU],
+            playStateIndex: 0,
+            iconList: {
+                download: Icon.XIAZAI,
+                ZHEDIE: Icon.ZHEDIE,
+                SHANGYISHOU: Icon.SHANGYISHOU,
+                XIAYISHOU: Icon.XIAYISHOU,
+                YINLIANG: Icon.YINLIANG1,
+                JINGYIN: Icon.JINGYIN,
+                LIEBIAO: Icon.LIEBIAO,
+                dislike: Icon.Dislike,
+                like: Icon.Like,
+            },
+        };
+    },
+    computed: {
+        ...mapGetters([
+            "userId",
+            "isPlay", // 播放状态
+            "playBtnIcon", // 播放状态的图标
+            "songId", // 音乐id
+            "songUrl", // 音乐地址
+            "songTitle", // 歌名
+            "singerName", // 歌手名
+            "songPic", // 歌曲图片
+            "curTime", // 当前音乐的播放位置
+            "duration", // 音乐时长
+            "currentPlayList",
+            "currentPlayIndex", // 当前歌曲在歌曲列表的位置
+            "showAside", // 是否显示侧边栏
+            "autoNext", // 用于触发自动播放下一首
+        ]),
+    },
+    watch: {
+        // 切换播放状态的图标
+        isPlay(value) {
+            this.$store.commit("setPlayBtnIcon", value ? Icon.ZANTING : Icon.BOFANG);
+        },
+        volume() {
+            this.$store.commit("setVolume", this.volume / 100);
+        },
+        // 播放时间的开始和结束
+        curTime() {
+            this.startTime = formatSeconds(this.curTime);
+            this.endTime = formatSeconds(this.duration);
+            // 移动进度条
+            this.nowTime = (this.curTime / this.duration) * 100;
+        },
+        // 自动播放下一首
+        autoNext() {
+            this.next();
+        },
+    },
+    methods: {
+        changeAside() {
+            this.$store.commit("setShowAside", !this.showAside);
+        },
+        // 控制音乐播放 / 暂停
+        togglePlay() {
+            this.$store.commit("setIsPlay", this.isPlay ? false : true);
+        },
+        changeTime() {
+            this.$store.commit("setChangeTime", this.duration * (this.nowTime * 0.01));
+        },
+        changePlayState() {
+            this.playStateIndex = this.playStateIndex >= this.playStateList.length - 1 ? 0 : ++this.playStateIndex;
+            this.playState = this.playStateList[this.playStateIndex];
+        },
+        // 上一首
+        prev() {
+            if (this.playState === Icon.LUANXU) {
+                let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
+                playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
+                this.$store.commit("setCurrentPlayIndex", playIndex);
+                this.toPlay(this.currentPlayList[playIndex].url);
+            } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
+                if (this.currentPlayIndex > 0) {
+                    this.$store.commit("setCurrentPlayIndex", this.currentPlayIndex - 1);
+                    this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
+                } else {
+                    this.$store.commit("setCurrentPlayIndex", this.currentPlayList.length - 1);
+                    this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
+                }
+            }
+        },
+        // 下一首
+        next() {
+            if (this.playState === Icon.LUANXU) {
+                let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
+                playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
+                this.$store.commit("setCurrentPlayIndex", playIndex);
+                this.toPlay(this.currentPlayList[playIndex].url);
+            } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
+                if (this.currentPlayIndex < this.currentPlayList.length - 1) {
+                    this.$store.commit("setCurrentPlayIndex", this.currentPlayIndex + 1);
+                    this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
+                } else {
+                    this.$store.commit("setCurrentPlayIndex", 0);
+                    this.toPlay(this.currentPlayList[0].url);
+                }
+            }
+        },
+        // 选中播放
+        toPlay(url) {
+            if (url && url !== this.songUrl) {
+                const song = this.currentPlayList[this.currentPlayIndex];
+                this.playMusic({
+                    id: song.id,
+                    url,
+                    pic: song.pic,
+                    index: this.currentPlayIndex,
+                    name: song.name,
+                    lyric: song.lyric,
+                    currentSongList: this.currentPlayList,
+                });
+            }
+        },
+        goPlayerPage() {
+            this.$router.push(`/lyric/${this.songId}`)
+        },
+    },
 });
-
-onBeforeUnmount(() => clearInterval(timer));
-
-
-
-const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-};
-
-const isRandom = ref(false);
-const isLikeRandom = ref(true);
-const toggleRandomPlay = () => (isRandom.value = !isRandom.value);
-const toggleLike = () => (isLikeRandom.value = !isLikeRandom.value);
-
-// 音量调节
-
-const toggleVolume = () => {
-    ElMessage({
-        message: '音量调节功能暂未实现',
-        type: 'info',
-    });
-};
-const goSongDetail = () => {
-    router.push('/detail')
-}
 </script>
 
 <style scoped>
 .music-player {
-    width: auto;
+
+    background: white;
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-top: auto;
+    width: 100%;
     height: 117px;
-    margin: 15px;
+    /* margin: 15px; */
 }
 
 .horizontal-layout {
@@ -172,7 +329,7 @@ const goSongDetail = () => {
     margin: 5px;
     border-radius: 10%;
     overflow: hidden;
-    
+
 }
 
 .text-layout {

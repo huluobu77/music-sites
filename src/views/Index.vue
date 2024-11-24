@@ -1,16 +1,15 @@
 <template>
     <div class="index">
-        <el-carousel indicator-position="outside">
-            <el-carousel-item v-for="(item, index) in carouselItems" :key="item.id">
-                <img :src="BASIC_IAMAGE_URL + item.pic" alt="" class="carousel-image" />
+        <el-carousel v-if="swiperList.length" class="swiper-container" type="card" height="20vw" :interval="4000">
+            <el-carousel-item v-for="(item, index) in swiperList" :key="index">
+                <img :src="HttpManager.attachImageUrl(item.pic)" />
             </el-carousel-item>
         </el-carousel>
-
         <el-container>
             <el-main>
                 <h3>歌单推荐</h3>
                 <div class="image-grid">
-                    <SongThumb v-for="(item, index) in gridItems" :key="index" :item="item"></SongThumb>
+                    <SongThumb path="song-detail" v-for="(item, index) in songList" :key="index" :item="item"></SongThumb>
                 </div>
             </el-main>
         </el-container>
@@ -18,35 +17,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElCarousel, ElCarouselItem, ElContainer, ElMain } from 'element-plus'; // 导入必要的组件
 import SongThumb from '../components/SongThumb.vue';
-import { httpManager } from '@/api';
+// import playList from '../components/PlayList.vue'
+import { HttpManager } from '@/api';
 import { BASIC_IAMAGE_URL } from './../constant.js'
 // 定义轮播内容，包含图片路径和文本
 const carouselItems = ref([
 ]);
 
-// 定义网格内容
-const gridItems = ref([
-    { image: "/src/assets/images/image.png", description: "描述 1" },
-    { image: "/src/assets/images/image.png", description: "描述 2" },
-    { image: "/src/assets/images/image.png", description: "描述 3" },
-    { image: "/src/assets/images/image.png", description: "描述 4" },
-    { image: "/src/assets/images/image.png", description: "描述 5" },
-    { image: "/src/assets/images/image.png", description: "描述 6" },
-    { image: "/src/assets/images/image.png", description: "描述 7" },
-    { image: "/src/assets/images/image.png", description: "描述 8" },
-    { image: "/src/assets/images/image.png", description: "描述 9" },
-    { image: "/src/assets/images/image.png", description: "描述 10" },
-]);
+const songList = ref([]); // 歌单列表
+const singerList = ref([]); // 歌手列表
+const swiperList = ref([]);// 轮播图 每次都在进行查询
+try {
 
-const getAllBanner = async () => {
-    const res = await httpManager.getAllBanner();
-    carouselItems.value = res.data;
+    HttpManager.getBannerList().then((res) => {
+        swiperList.value = (res).data.sort();
+    });
+
+    HttpManager.getSongList().then((res) => {
+        songList.value = (res).data.sort().slice(0, 10);
+    });
+
+    HttpManager.getAllSinger().then((res) => {
+        singerList.value = (res).data.sort().slice(0, 10);
+    });
+
+    onMounted(() => {
+        // changeIndex(NavName.Home);
+    });
+} catch (error) {
+    console.error(error);
 }
 
-getAllBanner();
 
 </script>
 
@@ -54,6 +58,7 @@ getAllBanner();
 .index {
     margin-top: 20px;
     padding: 0 40px;
+    margin-bottom: 150px;
 }
 
 .carousel-image {

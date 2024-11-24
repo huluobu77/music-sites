@@ -8,33 +8,89 @@
             <div class="nav-links">
                 <RouterLink to="/" class="nav-item">首页</RouterLink>
                 <RouterLink to="/songList" class="nav-item">歌单</RouterLink>
-                <RouterLink to="/sings" class="nav-item">歌手</RouterLink>
+                <RouterLink to="/singers" class="nav-item">歌手</RouterLink>
 
             </div>
             <div class="search">
-                <el-input class="custom-input" placeholder="搜索歌曲歌手" :suffix-icon="Search" v-model="input" />
+                <el-input class="custom-input" placeholder="搜索歌曲歌手" :suffix-icon="Search" v-model="keywords"
+                    @keyup.enter="goSearch()" />
             </div>
-            <div class="block">
-                <el-avatar :size="50" :src="avatarSrc" @click="onClickUserAvatar" />
+            <div class="rihgt-btn" v-if="!token">
+                <div @click="router.push('/login')"><el-icon>
+                        <User />
+                    </el-icon>登录</div>
+                <div @click="router.push('/register')"><el-icon>
+                        <Right />
+                    </el-icon>注册</div>
             </div>
+            <el-dropdown class="user-wrap" v-if="token" trigger="click">
+                <el-image class="user" fit="contain" :src="HttpManager.attachImageUrl(userPic)" />
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item v-for="(item, index) in menuList" :key="index"
+                            @click.stop="goMenuList(item.path)">{{ item.name }}</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
         </el-header>
     </el-container>
 </template>
 
 <script setup>
-import { ref, reactive, toRef, } from 'vue'
+import { ref, reactive, computed, } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { User, Right } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
-import { ElInput, ElHeader, ElContainer, ElAvatar } from 'element-plus' // 导入必要的组件
-
-const input = ref('')
-// 引入图片资源
 import avatarSrc from '@/assets/images/用户.png';
+import { ElMessage } from 'element-plus'
+import { HttpManager } from "@/api";
+
+const store = useStore();
 const router = useRouter();
+// 引入图片资源
+
+
+const keywords = ref('')
+const userPic = computed(() => store.getters.userPic);
+const token = computed(() => store.getters.token);
+
 const onClickUserAvatar = () => {
     router.push('/userIndex');
 }
 
+const menuList = ref([
+    {
+        name: '个人主页',
+        path: '/userIndex'
+    },
+    {
+        name: '设置',
+        path: '/userEdit'
+    },
+    {
+        name: '退出',
+        path: '/logout'
+    },
+])
+
+function goSearch() {
+    if (keywords.value !== "") {
+        store.commit('setSearchWord', keywords.value);
+        router.push(`/search?keywords=${keywords.value}`)
+    } else {
+        ElMessage.error('搜索内容不能为空');
+    }
+}
+
+function goMenuList(path) {
+    if (path == '/logout') {
+        store.commit("setToken", false);
+        router.push('/')
+    } else {
+        router.push(path)
+    }
+}
 </script>
 
 <style scoped>
@@ -131,5 +187,68 @@ const onClickUserAvatar = () => {
 .el-input {
     min-width: 200px;
     /* 设置最小宽度以确保输入框足够大 */
+}
+
+.rihgt-btn {
+    display: flex;
+}
+
+.rihgt-btn div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 86px;
+    height: 38px;
+    font-size: 14px;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:nth-child(1) {
+        color: var(--main-bg-darkColor);
+
+        .el-icon {
+            width: 18px;
+            height: 18px;
+            background-color: rgb(191, 204, 210);
+            color: #ffffff;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+
+
+    }
+
+    &:nth-child(2) {
+        .el-icon {
+            width: 18px;
+            height: 18px;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        background-color: #000000;
+        color: white;
+    }
+}
+
+.user-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .user {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-left: 10px;
+        /* margin-right: ; */
+        cursor: pointer;
+    }
 }
 </style>

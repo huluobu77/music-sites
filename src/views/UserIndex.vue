@@ -1,89 +1,102 @@
 <template>
   <div class="container">
 
-      <div class="top">
-          <div class="left" style="display: inline-block;">
-              <img plain @click="open" class="i1"
-                  src="https://img.js.design/assets/img/66ee87c44f6056eb85aefe68.jpg#56526c5627f4fe7218ac4ef5d58b0364">
-          </div>
-
-          <div class="right">
-              <div class="text">
-                  <h1>My Heart Will Go On <img @click="goModifyUserPage" class="i2"
-                          src="https://img.js.design/assets/img/66eecae23280c0d64a960e29.png#6352e5eb18ef0d17965ea85f8a39998f">
-                  </h1>
-                  <br>
-                  <h5>地区：湖南</h5>
-              </div>
-          </div>
-
+    <div class="top">
+      <div class="left" style="display: inline-block;">
+        <img width="200" plain @click="dialogTableVisible = true" class="i1" :src="HttpManager.attachImageUrl(userPic)">
       </div>
 
-      <div class="bottom">
-          <h4>收藏歌曲</h4>
-
-          <el-table :data="tableData">
-
-              <el-table-column prop="number" label="#" width="80" />
-              <el-table-column prop="song" label="歌曲" width="300" />
-              <el-table-column prop="singer" label="歌手" width="300" />
-              <el-table-column prop="album" label="专辑" width="300" />
-              <el-table-column prop="time" label="时长" />
-          </el-table>
-
+      <div class="right">
+        <div class="text">
+          <h1>{{ personalInfo.username }} <img @click="goModifyUserPage" class="i2"
+              src="https://img.js.design/assets/img/66eecae23280c0d64a960e29.png#6352e5eb18ef0d17965ea85f8a39998f">
+          </h1>
+          <br>
+          <h5>地区：{{ personalInfo.location }}</h5>
+        </div>
       </div>
+
+    </div>
+
+    <div class="personal-body">
+      <song-list :songList="collectSongList" :show="true" @changeData="changeData"></song-list>
+    </div>
+    <el-dialog v-model="dialogTableVisible" title="修改头像">
+      <upload></upload>
+    </el-dialog>
 
   </div>
 </template>
 
 
-<script setup lang="ts">
+<script setup>
 
 import { ElUpload, ElMessageBox, ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router'
-import { h } from 'vue';
-import { ref } from 'vue';
+import { useStore } from 'vuex'
+import { ref, reactive, nextTick, computed, watch } from 'vue';
+import SongList from "@/components/SongList.vue";
+import Upload from "@/views/setting/Upload.vue";
+import mixin from "@/mixins/mixin";
+import { HttpManager } from "@/api";
+
 const router = useRouter();
+const store = useStore();
 const goModifyUserPage = () => {
   router.push('/userEdit')
 }
-const open = () => {
-ElMessageBox({
-  title: '修改头像',
-  message: h('div', {
-    attrs: {
-      class: 'el-textarea'
-    }
-  }, [
-    h(ElUpload, {
-      attrs: {
-        class: 'el-upload',
-        action: '/your-upload-url',
-        multiple: false,
-        accept: 'image/jpeg,image/png,image/gif',
-        onSuccess: handleUploadSuccess,
-        onError: handleUploadError,
-        beforeUpload: beforeUploadFile
-      }
-    }, [
-      h('div', {
-          style: {
-          border: '2px dashed #ccc',
-          padding: '80px',
-          borderRadius: '5px',
-          margin: '50px 50px', // 设置上下外边距，左右外边距
-        }
-      }, '将文件拖到此处或点击上传'),
-      h('div', {
-        style:{
-          margin:'5px 0px'
-        }          
-      }, '只能上传jpg、jpeg、png、gif 文件, 且不超过10M')
-    ])
-  ]),
-  showConfirmButton: false // 隐藏确定按钮
+
+const dialogTableVisible = ref(false);
+const collectSongList = ref([]); // 收藏的歌曲
+const personalInfo = reactive({
+  username: "",
+  userSex: "",
+  birth: "",
+  location: "",
+  introduction: "",
 });
-};
+const userId = computed(() => store.getters.userId);
+const userPic = computed(() => store.getters.userPic);
+watch(userPic, () => {
+  dialogTableVisible.value = false;
+});
+
+function goPage() {
+  routerManager(RouterName.Setting, { path: RouterName.Setting });
+}
+async function getUserInfo(id) {
+  const result = (await HttpManager.getUserOfId(id));
+  personalInfo.username = result.data[0].username;
+  personalInfo.userSex = result.data[0].sex;
+  personalInfo.birth = result.data[0].birth;
+  personalInfo.introduction = result.data[0].introduction;
+  personalInfo.location = result.data[0].location;
+}
+// 获取收藏的歌曲
+async function getCollection(userId) {
+  collectSongList.value = []
+  const result = (await HttpManager.getCollectionOfUser(userId));
+  const collectIDList = result.data || []; // 存放收藏的歌曲ID
+  // 通过歌曲ID获取歌曲信息
+  for (const item of collectIDList) {
+    if (!item.songId) {
+      console.error(`歌曲${item}异常`);
+      continue;
+    }
+
+    const result = (await HttpManager.getSongOfId(item.songId));
+    collectSongList.value.push(result.data[0]);
+  }
+}
+
+function changeData() {
+  getCollection(userId.value);
+}
+
+nextTick(() => {
+  getUserInfo(userId.value);
+  getCollection(userId.value);
+});
 
 // 上传成功的回调函数
 const handleUploadSuccess = (response, file, fileList) => {
@@ -103,29 +116,19 @@ const beforeUploadFile = (file) => {
   const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
   if (fileSize > 10) {
-      ElMessage.error('文件大小超过10M，请选择较小的文件');
-      return false;
+    ElMessage.error('文件大小超过10M，请选择较小的文件');
+    return false;
   }
 
   if (!allowedExtensions.includes(fileExtension)) {
-      ElMessage.error('不支持的文件格式，请选择jpg、jpeg、png或gif文件');
-      return false;
+    ElMessage.error('不支持的文件格式，请选择jpg、jpeg、png或gif文件');
+    return false;
   }
 
   return true;
 };
 
 
-// el-table的定义数据
-const tableData = [
-  {
-      number: '01',
-      song: '爱的回归线',
-      singer: '单依纯',
-      album: '巨好听的歌《第五期》',
-      time: '3:42',
-  },
-]
 
 
 

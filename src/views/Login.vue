@@ -2,22 +2,21 @@
     <div class="all" style="margin-top: 20px;">
 
         <div class="left">
-            <h1>Welcome back</h1>
+            <h1>用户登录</h1>
 
             <div class="form-list">
 
-                <el-form :model="ruleForm" :rules="rules">
-
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules">
                     <el-form-item prop="username">
-                        <el-input v-model="ruleForm.username"  placeholder="用户名" style="height: 50px;"/>
+                        <el-input v-model="ruleForm.username" placeholder="用户名" style="height: 50px;" />
                     </el-form-item>
 
-                    <el-form-item prop="passward">
-                        <el-input v-model="ruleForm.passward" placeholder="密码" type="passward" @keyup.enter="onSubmit" style="height: 50px;"/>
+                    <el-form-item prop="password">
+                        <el-input v-model="ruleForm.password" placeholder="密码" type="password" style="height: 50px;" />
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button class="login-rgs" type="text" plain disabled><a href="http://localhost:5173/register">注册</a></el-button>
+                        <el-text type="info" style="margin-left: 280px;" @click="router.push('/register')">注册</el-text>
                     </el-form-item>
 
                     <el-form-item>
@@ -38,84 +37,111 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import { reactive } from 'vue'
+<script setup>
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { HttpManager } from "@/api";
 
+const router = useRouter();
+const store = useStore();
 
 const ruleForm = reactive({
     username: '',
-    passward: '',
+    password: '',
 })
+const ruleFormRef = ref(null);
 
 const rules = reactive({
-    username:[
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 5, message: '用户名长度请控制在3-5位', trigger: 'blur' },
+    username: [
+        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { min: 2, max: 10, message: '用户名长度请控制在2-10位', trigger: 'blur' },
     ],
 
-    passward:[
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 8, message: '密码长度请控制在6-8位', trigger: 'blur' },
+    password: [
+        { required: true, message: '请输入密码', trigger: 'blur' },
+        { min: 6, max: 8, message: '密码长度请控制在6-8位', trigger: 'blur' },
     ],
 
 })
 
 const onSubmit = () => {
-    console.log('submit!')
+    ruleFormRef.value.validate(async (valid) => {
+        if (!valid) return;
+        console.log('submit!');
+
+        try {
+            const username = ruleForm.username;
+            const password = ruleForm.password;
+            const result = (await HttpManager.signIn({ username, password }));
+            ElMessage({
+                message: result.message,
+                type: result.type,
+            })
+
+            if (result.success) {
+                store.commit("setUserId", result.data[0].id);
+                store.commit("setUsername", result.data[0].username);
+                store.commit("setUserPic", result.data[0].avator);
+                store.commit("setToken", true);
+                router.push("/")
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    })
+
 }
 </script>
 
-<style>
-/* .all{
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-between;
-
-    width: 1920px;
-    height: 1080px;
-} */
-
-*{
-    margin: 0px;
-    padding: 0px;
-}
-
-.form-list{
+<style scoped>
+.form-list {
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.all {
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+        margin-left: 260px;
+    }
+
+    .right {
+        width: 40vw;
+        margin-right: 0;
+
+        img {
+            width: 100%;
+
+        }
+    }
+}
+
 .left {
-    width: 50%;
+    /* width: 50%; */
     /* display: inline-block; */
-    float: left;
+    /* float: left; */
     /* text-align: center; */
 }
 
 .right {
-    width: 50%;
+    /* width: 50%; */
     /* display: inline-block; */
-    float: right;
+    /* float: right; */
+    /* margin-right: 0;
     opacity: 1;
+    .img{
 
-}
-
-.img1 {
-    width: 100%;
-    /* height: 600px; */
-    
-    
+    } */
 }
 
 .login-btn {
     font-size: 15px;
     padding: 10px 140px;
-}
-
-.login-rgs{
-    margin-left: 280px;
 }
 
 .demo-form-inline .el-input {
@@ -126,7 +152,7 @@ const onSubmit = () => {
     --el-select-width: 220px;
 }
 
-h1{
+h1 {
     margin-top: 150px;
     margin-bottom: 10px;
     text-align: center;
@@ -139,14 +165,9 @@ h1{
 
 .el-form {
     margin-top: 30px;
+
+    .el-form-item:nth-child(1) {
+        margin-top: 10px;
+    }
 }
-
-a {
-  text-decoration: none;  /* 删除下划线 */
-  color: inherit;  /* 继承父级元素的文本颜色 */
-  font-weight: inherit;  /* 继承父级元素的字体粗细 */
-  font-style: inherit;  /* 继承父级元素的字体样式 */
-}
-
-
 </style>
