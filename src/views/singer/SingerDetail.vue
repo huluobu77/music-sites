@@ -53,39 +53,6 @@ onMounted(async () => {
 })
 
 
-// el-table的定义数据
-const tableData = [
-    {
-        number: '01',
-        song: '爱的回归线',
-        singer: '周琳',
-        album: '巨好听的歌《第五期》',
-        time: '3:42',
-    },
-    {
-        number: '02',
-        song: '爱的回归线',
-        singer: '周琳',
-        album: '巨好听的歌《第五期》',
-        time: '3:42',
-    },
-    {
-        number: '03',
-        song: '爱的回归线',
-        singer: '周琳',
-        album: '巨好听的歌《第五期》',
-        time: '3:42',
-    },
-    {
-        number: '04',
-        song: '爱的回归线',
-        singer: '周琳',
-        album: '巨好听的歌《第五期》',
-        time: '3:42',
-    },
-]
-
-
 
 </script>
 

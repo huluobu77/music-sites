@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-table highlight-current-row :data="dataList" @row-click="handleClick">
+    <el-table ref="singleTableRef" highlight-current-row :data="dataList" @row-click="handleClick">
       <el-table-column prop="songName" label="歌曲" />
       <el-table-column prop="singerName" label="歌手" />
       <el-table-column prop="introduction" label="专辑" />
@@ -32,7 +32,7 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
-import { defineComponent, getCurrentInstance, toRefs, computed, reactive } from "vue";
+import { defineComponent,ref, getCurrentInstance, toRefs, computed, reactive } from "vue";
 import { useStore } from "vuex";
 import { MoreFilled, Delete, Download } from "@element-plus/icons-vue";
 import { formatSeconds } from "@/utils";
@@ -74,8 +74,11 @@ const dataList = computed(() => {
   });
   return list;
 });
+const singleTableRef = ref()
 
 function handleClick(row) {
+  // singleTableRef.value?.setCurrentRow(row)
+
   playMusic({
     id: row.id,
     url: row.url,
@@ -87,22 +90,7 @@ function handleClick(row) {
   });
 }
 
-function handleEdit(row) {
-  console.log("row", row);
-}
 
-const userId = computed(() => store.getters.userId);
-
-async function deleteCollection({ id }) {
-  if (!checkStatus()) return;
-
-  const result = (await HttpManager.deleteCollection(userId.value, id));
-  ElMessage({
-    message: result.message,
-    type: result.type,
-  })
-  if (result.data === false) proxy.$emit("changeData", result.data);
-}
 </script>
 
 <style lang="scss" scoped>

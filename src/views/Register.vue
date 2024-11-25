@@ -8,7 +8,7 @@
 
                 <el-form ref="signUpForm" label-width="70px" status-icon :model="registerForm" :rules="SignUpRules">
                     <el-form-item prop="username" label="用户名">
-                        <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
+                        <el-input v-model="registerForm.username" placeholder="用户名" type="text" maxlength="10"></el-input>
                     </el-form-item>
                     <el-form-item prop="password" label="密码">
                         <el-input type="password" placeholder="密码" v-model="registerForm.password"></el-input>
@@ -80,12 +80,15 @@ const registerForm = reactive({
 });
 
 const SignUpRules = reactive({
-    username: [{ required: true, message: '请输入用户名', trigger: "blur", min: 3 }],
-    password: [{ required: true, message: '请输入密码', trigger: "blur", min: 3 }],
+    username: [{ required: true, message: '请输入用户名', trigger: "blur" }],
+    password: [{ required: true, message: '请输入密码', trigger: "blur", min: 3, max: 12 }],
     sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-    phoneNum: [{ message: '请输入正确的手机号', pattern: /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|78|9]|18[0|1|23|5|6|7|8|9])\d{8}$/, trigger: ['blur', 'change'] },],
+    phoneNum: [{
+        message: '请输入正确的手机号', pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+        , trigger: ['blur', 'change']
+    },],
     birth: [{ required: true, type: "date", message: "请选择日期", trigger: "change" }],
-    introduction: [{ required: true, message: "请输入介绍", trigger: "blur" }],
+    introduction: [{ required: true, message: "请输入签名", trigger: "blur" }],
     location: [{ required: true, message: "请输入地区", trigger: "change" }],
 })
 

@@ -60,7 +60,7 @@ const rules = reactive({
 
     password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, max: 8, message: '密码长度请控制在6-8位', trigger: 'blur' },
+        { min: 3, max: 12, message: '密码长度请控制在3-12位', trigger: 'blur' },
     ],
 
 })
